@@ -37,45 +37,21 @@ def set_up_parser():
     parser.add_argument("-k",
                         help="k-mer size",
                         required=True, type=int)
-    parser.add_argument("--bloomType", # !! TODO - want this in only some?
-                        help="type of Bloom filter (bf, cbf) - only relevant when --reads specified [default=bf]",
-                        default="bf", type=str, choices=["bf", "cbf"])
-    parser.add_argument("--window", help="Window size for ancestry fraction inference (bp) [default=5000000]",
+    parser.add_argument("--tile", help="Tile size for ancestry fraction inference (bp) [default=5000000]",
                         default=5000000, type=int)
-    parser.add_argument("--cutoff",
-                        help="The minimum coverage of k-mers in output Bloom filter"
-                            "[default=2, ignored if --solid or --genome specified]",
-                        default=2, type=int)
-    parser.add_argument("--solid",
-                        help="Output the solid k-mers (non-erroneous k-mers)"
-                            "[default=False, ignored if --genome specified]",
-                        action="store_true", default=False)
     parser.add_argument("-t",
                         help="Number of threads [default=4]", default=4, type=int)
     parser.add_argument("-z",
                         help="Minimum contig length [default=100]", default=100, type=int)
-    parser.add_argument("-y",
-                        help="k/y ratio for the number of alternate k-mers that should be present [default=9.000]",
-                        default=9.000, type=float)
     parser.add_argument("-j",
                         help="controls size of k-mer subset. When checking subset of k-mers, check every jth k-mer"
                             "[default=3]",
                         default=3, type=int)
-    parser.add_argument("-X",
-                        help="Ratio of number of k-mers in the k subset that should be missing in order"
-                            "to detect SNV (higher=stringent) "
-                            "[default=0.5, if -Y is specified]", default=-1, type=float)
     parser.add_argument("-Y",
-                        help="Ratio of number of k-mers in the k subset that should be present to accept"
+                        help="Ratio of number of k-mers in the k subset that should be present to accept "
                             "an edit (higher=stringent) "
-                            "[default=0.5, if -X is specified]", default=-1, type=float)
-    parser.add_argument("-p",
-                        help="Minimum k-mer coverage threshold (CBF only) [default=1]", default=1, type=int)
-    parser.add_argument("-q",
-                        help="Maximum k-mer coverage threshold (CBF only) [default=255, largest possible value]",
-                        default=255, type=int)
-
-    parser.add_argument("-v",
+                            "[default=0.55]", default=0.55, type=float)
+    parser.add_argument("-v", "--verbose",
                         help="Verbose mode [default=False]", action="store_true", default=False)
     parser.add_argument("-V", "--version", action="version", version=NTROOT_VERSION)
 
@@ -107,47 +83,24 @@ def main():
 
     command = f"snakemake -s {base_dir}/ntroot_run_pipeline.smk {smk_rule} --nolock -p --cores {args.t} " \
             f"--config draft={args.draft} k={args.k} t={args.t} " \
-            f"z={args.z} y={args.y} window_size={args.window} " \
-            f"v={args.v} p={args.p} q={args.q} j={args.j} "
+            f"z={args.z} y={args.y} tile_size={args.tile} " \
+            f"v={args.v} j={args.j} Y={args.Y}"
 
     if args.genome:
         intro_string.append(f"\t--genome {args.genome}")
         command += f"genomes={args.genome} "
-        if args.bloomType == "cbf":
-            raise argparse.ArgumentTypeError("--genome is only compatible with --bloomType bf")
     else:
         intro_string.append(f"\t--reads {args.reads}")
-        command += f"reads={args.reads} bloomType={args.bloomType} "
-
-    intro_string.extend([f"\t--bloomType {args.bloomType}",
-                        f"\t-k {args.k}",
+    intro_string.extend([f"\t-k {args.k}",
                         f"\t--draft {args.draft}",
                         f"\t-t {args.t}",
                         f"\t-z {args.z}",
-                        f"\t-y {args.y}",
-                        f"\t-p {args.p}",
-                        f"\t-q {args.q}",
                         f"\t-j {args.j}",
+                        f"\t-Y {args.Y}"
                     ])
 
-    if args.X != -1 or args.Y != -1:
-        if args.X == -1:
-            args.X = 0.5
-        if args.Y == -1:
-            args.Y = 0.5
-        intro_string.append(f"\t-X {args.X}")
-        intro_string.append(f"\t-Y {args.Y}")
-        command += f" X={args.X} Y={args.Y}"
 
-    if not args.genome:
-        if args.solid:
-            intro_string.append("\t--solid")
-            command += f" solid={args.solid}"
-        else:
-            intro_string.append(f"\t--cutoff {args.cutoff}")
-            command += f" cutoff={args.cutoff}"
-
-    if args.v:
+    if args.verbose:
         intro_string.append("\t-v")
         command += " v=1"
     else:
