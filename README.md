@@ -56,5 +56,5 @@ optional arguments:
   -f, --force           Run all ntRoot steps, regardless of existing output files
 
 Note: please specify --reads OR --genome (not both)
-If you have any questions about ntRoot, please open anissue at https://github.com/bcgsc/ntRoot
+If you have any questions about ntRoot, please open an issue at https://github.com/bcgsc/ntRoot
 ```
