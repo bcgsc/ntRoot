@@ -51,10 +51,10 @@ rule ntedit_reads:
         out_vcf = f"{reads_prefix}_ntedit_k{k}_variants.vcf"
     params:
         benchmark = f"{time_command} ntedit_snv_k{k}.time",
-        params = f"-k {k} -t {t} -z {z} -j {j} -Y {Y} --solid",
+        params = f"-k {k} -t {t} -z {z} -j {j} -Y {Y} --solid ",
         vcf_input = f"-l {l}" if l else ""
     shell:
-        "{params.benchmark} run-ntedit snv --draft {draft} --reads {reads_prefix} {params.params}"
+        "{params.benchmark} run-ntedit snv --draft {draft} --reads {reads_prefix} {params.params} "
         "{params.vcf_input}"
 
 rule ntedit_genome:
@@ -65,10 +65,10 @@ rule ntedit_genome:
         out_vcf = f"{genome_prefix}_ntedit_k{k}_variants.vcf"
     params:
         benchmark = f"{time_command} ntedit_snv_k{k}.time",
-        params = f"-k {k} -t {t} -z {z}= -j {j} -Y {Y}",
+        params = f"-k {k} -t {t} -z {z} -j {j} -Y {Y}",
         vcf_input = f"-l {l}" if l else ""
     shell:
-        "{params.benchmark} run-ntedit snv --draft {draft} --genome {input.genomes} {params.params}"
+        "{params.benchmark} run-ntedit snv --draft {draft} --genome {input.genomes} {params.params} "
         " {params.vcf_input}"
 
 

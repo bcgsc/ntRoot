@@ -83,14 +83,16 @@ def main():
 
     command = f"snakemake -s {base_dir}/ntroot_run_pipeline.smk {smk_rule} --nolock -p --cores {args.t} " \
             f"--config draft={args.draft} k={args.k} t={args.t} " \
-            f"z={args.z} y={args.y} tile_size={args.tile} " \
-            f"j={args.j} Y={args.Y}"
+            f"z={args.z} tile_size={args.tile} " \
+            f"j={args.j} Y={args.Y} "
 
     if args.genome:
         intro_string.append(f"\t--genome {args.genome}")
         command += f"genomes={args.genome} "
     else:
         intro_string.append(f"\t--reads {args.reads}")
+        command += f"reads={args.reads}"
+
     intro_string.extend([f"\t-k {args.k}",
                         f"\t--draft {args.draft}",
                         f"\t-t {args.t}",
