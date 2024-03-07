@@ -22,12 +22,14 @@
 
 use strict;
 my $dw = 5000000;
+my $verbose = 0;
 if($#ARGV<0){
-   die "Usage: $0 < *variants.vcf > < window size default: $dw >\n";
+   die "Usage: $0 < *variants.vcf > < window size default: $dw > < verbose (default 0) >\n";
 }
 
 my $f = $ARGV[0];
 $dw = $ARGV[1] if($ARGV[1]);
+$verbose = $ARGV[2] if($ARGV[2]);
 
 open(IN, $f) || die "can't read $f -- fatal.\n";
 
@@ -127,7 +129,13 @@ foreach my $k(keys %$s){
 my $out = $f . "_ancestry-predictions.tsv";
 open(OUT,">$out") || die "Can't write to $out -- fatal.\n";
 
-my $header_str = "Rank\tPopulation\tTotal_SNV_count\tPopulation_non-zero-Allele-freq_SNV_count\tAncestry_inference_score\tAncestry_fraction_window$dw-bp\n";
+my $header_str = "Rank\tPopulation\tTotal_SNV_count\tPopulation_non-zero-Allele-freq_SNV_count\tAncestry_inference_score\tAncestry_fraction_window$dw-bp";
+if ($verbose) {
+	$header_str = $header_str . "\tSumAF\tAvgAF\tnzAvgAF\tAvgAF * nzAF_SNV_count\n";
+} else {
+	$header_str = $header_str . "\n";
+}
+
 print OUT $header_str;
 
 my $rank=0;
@@ -135,10 +143,22 @@ foreach my $k(sort {$s->{$b}{'prob'}<=>$s->{$a}{'prob'}} keys %$s){
 	$rank++;
 	my $population=$1 if($k=~/(\S+)\_/);
 	my $percent = $top->{$population}/$total *100;
-	printf OUT "$rank\t$population\t$xr\t$s->{$k}{'ct'}\t%.4f\t%.2f%%\n", ($s->{$k}{'prob'}, $percent);
+	printf OUT "$rank\t$population\t$xr\t$s->{$k}{'ct'}\t%.4f\t%.2f%%", ($s->{$k}{'prob'}, $percent);
+	if ($verbose) {
+		my $p = $s->{$k}{'sum'}/$xr;
+		my $c=$s->{$k}{'sum'}/$s->{$k}{'ct'};
+		my $nzr=$s->{$k}{'ct'}/$xr;
+		printf OUT "\t%.2f\t%.4f\t%.4f\t%.4f\t%.2f\n", ($s->{$k}{'sum'}, $p, $c, $nzr, $s->{$k}{'fract'});
+	} else {
+		printf OUT "\n";
+	}
 }
 
 print "\nAncestry_inference_score: Average SNV allele frequency * rate of SNVs with non-zero allele frequency\n";
+print "Populations are ranked based on the Ancestry_inference_score\n";
+if ($verbose) {
+	print "\nAbbreviations:\n\tAF: Allele Frequency\n\tnz: Non-zero\n";
+}
 print "\nAncestry predictions available in:\n$out\n\n";
 
 exit(0);
