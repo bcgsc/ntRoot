@@ -5,7 +5,7 @@ project('ntRoot',
 subproject('ntEdit')
 subdir('bin')
 
-scripts = ['run-ntroot', 'ntroot_run_pipeline.smk']
+scripts = ['ntRoot', 'ntroot_run_pipeline.smk']
 
 install_data(scripts, install_dir : 'bin', install_mode : 'rwxr-xr--')
 

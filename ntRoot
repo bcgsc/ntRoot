@@ -105,9 +105,9 @@ def main():
     if args.genome:
         smk_rule = "ntroot_genome"
 
-    command = f"snakemake -s {base_dir}/ntroot_run_pipeline.smk {smk_rule} -p --cores {args.t} " \
+    command = f"snakemake -s {base_dir}/ntroot_run_pipeline.smk {smk_rule} --nolock -p --cores {args.t} " \
             f"--config draft={args.draft} k={args.k} t={args.t} " \
-            f"z={args.z} y={args.y} window_size={args.window}" \
+            f"z={args.z} y={args.y} window_size={args.window} " \
             f"v={args.v} p={args.p} q={args.q} j={args.j} "
 
     if args.genome:

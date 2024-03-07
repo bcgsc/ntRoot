@@ -26,7 +26,7 @@ ntRoot and all required scripts will be installed to: /path/to/install/directory
 
 ## Usage
 ```
-usage: run-ntroot [-h] --draft DRAFT [--reads READS] [--genome GENOME [GENOME ...]] [-l L] -k K [--bloomType {bf,cbf}] [--window WINDOW] [--cutoff CUTOFF]
+usage: ntRoot [-h] --draft DRAFT [--reads READS] [--genome GENOME [GENOME ...]] [-l L] -k K [--bloomType {bf,cbf}] [--window WINDOW] [--cutoff CUTOFF]
                   [--solid] [-t T] [-z Z] [-y Y] [-j J] [-X X] [-Y Y] [-p P] [-q Q] [-v] [-V] [-n] [-f]
 ntRoot: Ancestry inference from genomic data
 

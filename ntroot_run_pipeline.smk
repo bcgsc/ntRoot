@@ -2,6 +2,10 @@
 
 # Snakefile for ntRoot pipeline
 import os
+import shutil
+
+onsuccess:
+    shutil.rmtree(".snakemake", ignore_errors=True)
 
 # Read parameters from config or set default values
 draft=config["draft"]
@@ -9,7 +13,7 @@ reads_prefix=config["reads"] if "reads" in config else ""
 k=config["k"]
 
 genomes = config["genomes"] if "genomes" in config else ""
-genome_prefix = ".".join([genome.removesuffix(".fa").removesuffix(".fasta").removesuffix(".fna") for genome in genomes])
+genome_prefix = ".".join([os.path.basename(os.path.realpath(genome)).removesuffix(".fa").removesuffix(".fasta").removesuffix(".fna") for genome in genomes])
 
 # Common parameters
 t = config["t"] if "t" in config else 4
@@ -32,7 +36,7 @@ l = config["l"] if "l" in config else ""
 bloomType = config["bloomType"] if "bloomType" in config else "bf"
 
 # Ancestry inference parameters
-window_size = contig["window_size"] if "window_size" in config else 5000000
+window_size = config["window_size"] if "window_size" in config else 5000000
 
 # time command
 mac_time_command = "command time -l -o"
@@ -79,7 +83,7 @@ rule ntedit_genome:
         ratio = f"-X {X} -Y {Y}" if X != -1 or Y != -1 else ""
     shell:
         "{params.benchmark} run-ntedit snv --draft {draft} --genome {input.genomes} {params.params}"
-        "{params.vcf_input} {params.verbosity} {params.ratio}"
+        " {params.vcf_input} {params.verbosity} {params.ratio}"
 
 
 rule ancestry_prediction:
@@ -88,7 +92,7 @@ rule ancestry_prediction:
     output: 
         predictions = "{vcf}_ancestry-predictions.tsv"
     params:
-        benchmark = f"{time_command} ancestry_prediction_k{k}.time"
+        benchmark = f"{time_command} ancestry_prediction_k{k}.time",
         window_size = window_size
     shell:
         "{params.benchmark} ntRootAncestryPredictor.pl {input.vcf} {params.window_size}"
