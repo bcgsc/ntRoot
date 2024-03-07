@@ -54,15 +54,14 @@ rule ntroot_reads:
 
 rule ntedit_reads:
     input: 
-        draft = draft,
-        reads_prefix = reads_prefix
+        draft = draft
     output:
         out_vcf = f"{reads_prefix}_ntedit_k{k}_variants.vcf" if bloomType == "bf" else f"{reads_prefix}_ntedit_k{k}_cbf_variants.vcf"
     params:
         benchmark = f"{time_command} ntedit_snv_k{k}.time",
-        params = f"-k {k} --bloomType {bloomType} -t {t} -z {z} -y {y} -j {j} -p {p} -q {q}",
+        params = f"-k {k} --bloomType {bloomType} -t {t} -z {z} -y {y} -j {j} -p {p} -q {q} ",
         vcf_input = f"-l {l}" if l else "",
-        cutoff = "--solid" if solid else "--cutoff {cutoff}",
+        cutoff = "--solid" if solid else f"--cutoff {cutoff}",
         verbosity = "-v" if v else "",
         ratio = f"-X {X} -Y {Y}" if X != -1 or Y != -1 else ""
     shell:
