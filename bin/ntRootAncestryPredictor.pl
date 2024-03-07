@@ -124,7 +124,7 @@ foreach my $k(keys %$s){
 
 #output predictions
 
-my $out = $f . "_ancestry-predictions1.tsv";
+my $out = $f . "_ancestry-predictions.tsv";
 open(OUT,">$out") || die "Can't write to $out -- fatal.\n";
 
 my $header_str = "Rank\tPopulation\tTotal_SNV_count\tPopulation_non-zero-Allele-freq_SNV_count\tAncestry_inference_score\tAncestry_fraction_window$dw-bp\n";
