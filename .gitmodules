@@ -1,0 +1,3 @@
+[submodule "subprojects/ntEdit"]
+	path = subprojects/ntEdit
+	url = https://github.com/bcgsc/ntEdit.git
