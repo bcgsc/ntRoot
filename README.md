@@ -33,17 +33,17 @@ ntRoot: Ancestry inference from genomic data
 optional arguments:
   -h, --help            show this help message and exit
   --draft DRAFT         Draft genome assembly (FASTA, Multi-FASTA, and/or gzipped compatible)
-  --reads READS         Prefix of input reads file(s) for detecting SNVs.All files in the working directory with the specified prefix will be used.(fastq, fasta, gz, bz, zip)
+  --reads READS         Prefix of input reads file(s) for detecting SNVs. All files in the working directory with the specified prefix will be used. (fastq, fasta, gz, bz, zip)
   --genome GENOME [GENOME ...]
                         Genome assembly file(s) for detecting SNVs on --draft
   -l L                  input VCF file with annotated variants (e.g., clinvar.vcf)
   -k K                  k-mer size
-  --tile TILE       Tile size for ancestry fraction inference (bp) [default=5000000]
+  --tile TILE           Tile size for ancestry fraction inference (bp) [default=5000000]
   -t T                  Number of threads [default=4]
   -z Z                  Minimum contig length [default=100]
-  -j J                  controls size of k-mer subset. When checking subset of k-mers, check every jth k-mer[default=3]
+  -j J                  controls size of k-mer subset. When checking subset of k-mers, check every jth k-mer [default=3]
   -Y Y                  Ratio of number of k-mers in the k subset that should be present to accept an edit (higher=stringent) [default=0.55]
-  -v, --verbose                    Verbose mode [default=False]
+  -v, --verbose         Verbose mode [default=False]
   -V, --version         show program's version number and exit
   -n, --dry-run         Print out the commands that will be executed
   -f, --force           Run all ntRoot steps, regardless of existing output files
