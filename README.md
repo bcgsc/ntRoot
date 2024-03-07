@@ -17,6 +17,13 @@ ninja install
 ```
 ntRoot and all required scripts will be installed to: /path/to/install/directory
 
+### Dependencies
+- python 3.9+
+- perl
+- [meson](https://mesonbuild.com/)
+- [ninja](https://ninja-build.org/)
+- [snakemake](https://snakemake.readthedocs.io/en/stable/)
+
 ## Usage
 ```
 usage: run-ntroot [-h] --draft DRAFT [--reads READS] [--genome GENOME [GENOME ...]] [-l L] -k K [--bloomType {bf,cbf}] [--window WINDOW] [--cutoff CUTOFF]
