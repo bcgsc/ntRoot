@@ -47,37 +47,35 @@ while(<IN>){
 	my $maxpop;
 
 	if(/_AF/){
-		#print "$a[1]..$dw..";
 		my $wn = int($a[1] / $dw);
-		#print "$wn\n";
 		$xr++;
 
 		my @b=split(/\;/,$a[7]);
 		my @e=split(/\=/,$b[3]);
 		my @c=($b[4],$b[5],$b[6],$b[7],$b[8]);
 
-      		foreach my $el(@c){
-         		my @d=split(/\=/,$el);
+		foreach my $el(@c){
+			my @d=split(/\=/,$el);
 			my $pop=$1 if($d[0]=~/(\S+)\_/);
-         		$s->{$d[0]}{'sum'}+=$d[1];
+			$s->{$d[0]}{'sum'}+=$d[1];
 
 			#chr  winnum   pop
 			$z->{$a[0]}{$wn}{$pop}{'sum'}+=$d[1];
 			$y->{$a[0]}{$wn}{'ct'}++;
 
 
-         		if($d[1]){$s->{$d[0]}{'ct'}++;
-				$z->{$a[0]}{$wn}{$pop}{'nzct'}++;
-				#LG      start   end     value   color
-				if($a[1]>$max){
-					$max=$a[1];
-					$maxpop=$pop;
+			if($d[1]){$s->{$d[0]}{'ct'}++;
+			$z->{$a[0]}{$wn}{$pop}{'nzct'}++;
+			#LG      start   end     value   color
+			if($a[1]>$max){
+				$max=$a[1];
+				$maxpop=$pop;
 				}
-			}else{
+			} else{
 				$d[1]=1;
 			}
-         		if(! defined $s->{$d[0]}{'eval'}){$s->{$d[0]}{'eval'}=1;}
-         		$s->{$d[0]}{'eval'} *= $d[1];
+			if(! defined $s->{$d[0]}{'eval'}){$s->{$d[0]}{'eval'}=1;}
+			$s->{$d[0]}{'eval'} *= $d[1];
 		}
    	}
 }
@@ -95,11 +93,10 @@ foreach my $el(sort {$a<=>$b} keys %$z){
 		print "WARNING: chr$el window$wnum has $y->{$el}{$wnum}{'ct'} only total SNVs -- you may need to increase the window size (currently set at $dw)\n" if($y->{$el}{$wnum}{'ct'}<100);
 		foreach my $pp(keys %$pl){
 			my $rate = $pl->{$pp}{'sum'}/$y->{$el}{$wnum}{'ct'};
-			#my $metric = $pl->{$pp}{'nzct'} * $rate;
 			my $metric = ($pl->{$pp}{'nzct'}/$y->{$el}{$wnum}{'ct'}) * $rate;
 			if($metric>$winmax){
 				$winmax = $metric;
-				$winpop = $pp;			
+				$winpop = $pp;
 			}
 		}
 		$top->{$winpop} += $dw;
@@ -122,14 +119,14 @@ foreach my $k(keys %$s){
 	my $nzr = $s->{$k}{'ct'}/$xr;
 	$s->{$k}{'prob'} = $p*$nzr;
 	$s->{$k}{'fract'} = $p*$s->{$k}{'ct'};
-} 
+}
 
 #output predictions
 
-my $out = $f . "_ancestry-predictions.tsv";
+my $out = $f . "_ancestry-predictions_tile$dw.tsv";
 open(OUT,">$out") || die "Can't write to $out -- fatal.\n";
 
-my $header_str = "Rank\tPopulation\tTotal_SNV_count\tPopulation_non-zero-Allele-freq_SNV_count\tAncestry_inference_score\tAncestry_fraction_window$dw-bp";
+my $header_str = "GAI Population\tTotal SNV count\tPopulation non-zero AF SNV count\tGAI score\tLAI fraction (window:$dw bp)";
 if ($verbose) {
 	$header_str = $header_str . "\tSumAF\tAvgAF\tnzAvgAF\tAvgAF * nzAF_SNV_count\n";
 } else {
@@ -139,11 +136,11 @@ if ($verbose) {
 print OUT $header_str;
 
 my $rank=0;
-foreach my $k(sort {$s->{$b}{'prob'}<=>$s->{$a}{'prob'}} keys %$s){
+foreach my $population(sort {$top->{$b}<=>$top->{$a}} keys %$top){
 	$rank++;
-	my $population=$1 if($k=~/(\S+)\_/);
+	my $k = $population . "_AF";
 	my $percent = $top->{$population}/$total *100;
-	printf OUT "$rank\t$population\t$xr\t$s->{$k}{'ct'}\t%.4f\t%.2f%%", ($s->{$k}{'prob'}, $percent);
+	printf OUT "$population\t$xr\t$s->{$k}{'ct'}\t%.4f\t%.2f%%", ($s->{$k}{'prob'}, $percent);
 	if ($verbose) {
 		my $p = $s->{$k}{'sum'}/$xr;
 		my $c=$s->{$k}{'sum'}/$s->{$k}{'ct'};
