@@ -24,7 +24,7 @@ use strict;
 my $dw = 5000000;
 my $verbose = 0;
 if($#ARGV<0){
-   die "Usage: $0 < *variants.vcf > < window size default: $dw > < verbose (default 0) >\n";
+   die "Usage: $0 < *variants.vcf > < tile size default: $dw > < verbose (default 0) >\n";
 }
 
 my $f = $ARGV[0];
@@ -47,42 +47,40 @@ while(<IN>){
 	my $maxpop;
 
 	if(/_AF/){
-		#print "$a[1]..$dw..";
 		my $wn = int($a[1] / $dw);
-		#print "$wn\n";
 		$xr++;
 
 		my @b=split(/\;/,$a[7]);
 		my @e=split(/\=/,$b[3]);
 		my @c=($b[4],$b[5],$b[6],$b[7],$b[8]);
 
-      		foreach my $el(@c){
-         		my @d=split(/\=/,$el);
+		foreach my $el(@c){
+			my @d=split(/\=/,$el);
 			my $pop=$1 if($d[0]=~/(\S+)\_/);
-         		$s->{$d[0]}{'sum'}+=$d[1];
+			$s->{$d[0]}{'sum'}+=$d[1];
 
 			#chr  winnum   pop
 			$z->{$a[0]}{$wn}{$pop}{'sum'}+=$d[1];
 			$y->{$a[0]}{$wn}{'ct'}++;
 
 
-         		if($d[1]){$s->{$d[0]}{'ct'}++;
-				$z->{$a[0]}{$wn}{$pop}{'nzct'}++;
-				#LG      start   end     value   color
-				if($a[1]>$max){
-					$max=$a[1];
-					$maxpop=$pop;
+			if($d[1]){$s->{$d[0]}{'ct'}++;
+			$z->{$a[0]}{$wn}{$pop}{'nzct'}++;
+			#LG      start   end     value   color
+			if($a[1]>$max){
+				$max=$a[1];
+				$maxpop=$pop;
 				}
-			}else{
+			} else{
 				$d[1]=1;
 			}
-         		if(! defined $s->{$d[0]}{'eval'}){$s->{$d[0]}{'eval'}=1;}
-         		$s->{$d[0]}{'eval'} *= $d[1];
+			if(! defined $s->{$d[0]}{'eval'}){$s->{$d[0]}{'eval'}=1;}
+			$s->{$d[0]}{'eval'} *= $d[1];
 		}
    	}
 }
 
-###calculate metric per window
+###calculate metric per tile
 my $top;
 my $total;
 
@@ -92,14 +90,13 @@ foreach my $el(sort {$a<=>$b} keys %$z){
 		my $pl = $wnl->{$wnum};
 		my $winmax;
 		my $winpop;
-		print "WARNING: chr$el window$wnum has $y->{$el}{$wnum}{'ct'} only total SNVs -- you may need to increase the window size (currently set at $dw)\n" if($y->{$el}{$wnum}{'ct'}<100);
+		print "WARNING: chr$el tile$wnum has $y->{$el}{$wnum}{'ct'} only total SNVs -- you may need to increase the tile size (currently set at $dw)\n" if($y->{$el}{$wnum}{'ct'}<100);
 		foreach my $pp(keys %$pl){
 			my $rate = $pl->{$pp}{'sum'}/$y->{$el}{$wnum}{'ct'};
-			#my $metric = $pl->{$pp}{'nzct'} * $rate;
 			my $metric = ($pl->{$pp}{'nzct'}/$y->{$el}{$wnum}{'ct'}) * $rate;
 			if($metric>$winmax){
 				$winmax = $metric;
-				$winpop = $pp;			
+				$winpop = $pp;
 			}
 		}
 		$top->{$winpop} += $dw;
@@ -122,16 +119,16 @@ foreach my $k(keys %$s){
 	my $nzr = $s->{$k}{'ct'}/$xr;
 	$s->{$k}{'prob'} = $p*$nzr;
 	$s->{$k}{'fract'} = $p*$s->{$k}{'ct'};
-} 
+}
 
 #output predictions
 
-my $out = $f . "_ancestry-predictions.tsv";
+my $out = $f . "_ancestry-predictions_tile$dw.tsv";
 open(OUT,">$out") || die "Can't write to $out -- fatal.\n";
 
-my $header_str = "Rank\tPopulation\tTotal_SNV_count\tPopulation_non-zero-Allele-freq_SNV_count\tAncestry_inference_score\tAncestry_fraction_window$dw-bp";
+my $header_str = "GAI Super-population\tLAI fraction (tile:$dw bp)\tGAI score\tTotal SNV count\tNon-zero AF SNV count";
 if ($verbose) {
-	$header_str = $header_str . "\tSumAF\tAvgAF\tnzAvgAF\tAvgAF * nzAF_SNV_count\n";
+	$header_str = $header_str . "\tSumAF\tAvgAF\tnzAvgAF\tnzSNVrate\tAvgAF * nzAF_SNV_count\n";
 } else {
 	$header_str = $header_str . "\n";
 }
@@ -139,11 +136,11 @@ if ($verbose) {
 print OUT $header_str;
 
 my $rank=0;
-foreach my $k(sort {$s->{$b}{'prob'}<=>$s->{$a}{'prob'}} keys %$s){
+foreach my $population(sort {$top->{$b}<=>$top->{$a}} keys %$top){
 	$rank++;
-	my $population=$1 if($k=~/(\S+)\_/);
+	my $k = $population . "_AF";
 	my $percent = $top->{$population}/$total *100;
-	printf OUT "$rank\t$population\t$xr\t$s->{$k}{'ct'}\t%.4f\t%.2f%%", ($s->{$k}{'prob'}, $percent);
+	printf OUT "$population\t%.2f%%\t%.4f\t$xr\t$s->{$k}{'ct'}", ($percent, $s->{$k}{'prob'});
 	if ($verbose) {
 		my $p = $s->{$k}{'sum'}/$xr;
 		my $c=$s->{$k}{'sum'}/$s->{$k}{'ct'};
@@ -154,11 +151,12 @@ foreach my $k(sort {$s->{$b}{'prob'}<=>$s->{$a}{'prob'}} keys %$s){
 	}
 }
 
-print "\nAncestry_inference_score: Average SNV allele frequency * rate of SNVs with non-zero allele frequency\n";
-print "Populations are ranked based on the Ancestry_inference_score\n";
+print "\nGAI score: Average SNV allele frequency * rate of SNVs with non-zero allele frequency\n";
+print "Populations are ranked based on the LAI fraction\n";
+print "\nAbbreviations:\n\tAF: Allele Frequency";
 if ($verbose) {
-	print "\nAbbreviations:\n\tAF: Allele Frequency\n\tnz: Non-zero\n";
+	print "\n\tnz: Non-zero\n";
 }
-print "\nAncestry predictions available in:\n$out\n\n";
+print "\n\nAncestry predictions available in:\n$out\n\n";
 
 exit(0);

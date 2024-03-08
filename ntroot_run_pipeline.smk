@@ -36,13 +36,13 @@ linux_time_command = "command time -v -o"
 time_command = mac_time_command if os.uname().sysname == "Darwin" else linux_time_command
 
 rule all:
-    input: f"{reads_prefix}_ntedit_k{k}_variants.vcf_ancestry-predictions.tsv"
+    input: f"{reads_prefix}_ntedit_k{k}_variants.vcf_ancestry-predictions_tile{tile_size}.tsv"
 
 rule ntroot_genome:
-    input: f"{genome_prefix}_ntedit_k{k}_variants.vcf_ancestry-predictions.tsv"
+    input: f"{genome_prefix}_ntedit_k{k}_variants.vcf_ancestry-predictions_tile{tile_size}.tsv"
 
 rule ntroot_reads:
-    input: f"{reads_prefix}_ntedit_k{k}_variants.vcf_ancestry-predictions.tsv"
+    input: f"{reads_prefix}_ntedit_k{k}_variants.vcf_ancestry-predictions_tile{tile_size}.tsv"
 
 rule ntedit_reads:
     input: 
@@ -76,9 +76,9 @@ rule ancestry_prediction:
     input: 
         vcf = "{vcf}"
     output: 
-        predictions = "{vcf}_ancestry-predictions.tsv"
+        predictions = "{vcf}_ancestry-predictions_tile{tile_size}.tsv"
     params:
-        benchmark = f"{time_command} ancestry_prediction_k{k}.time",
+        benchmark = f"{time_command} ancestry_prediction_k{k}_tile{tile_size}.time",
         tile_size = tile_size,
         verbosity = v
     shell:
