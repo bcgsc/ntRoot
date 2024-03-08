@@ -24,7 +24,7 @@ use strict;
 my $dw = 5000000;
 my $verbose = 0;
 if($#ARGV<0){
-   die "Usage: $0 < *variants.vcf > < window size default: $dw > < verbose (default 0) >\n";
+   die "Usage: $0 < *variants.vcf > < tile size default: $dw > < verbose (default 0) >\n";
 }
 
 my $f = $ARGV[0];
@@ -80,7 +80,7 @@ while(<IN>){
    	}
 }
 
-###calculate metric per window
+###calculate metric per tile
 my $top;
 my $total;
 
@@ -90,7 +90,7 @@ foreach my $el(sort {$a<=>$b} keys %$z){
 		my $pl = $wnl->{$wnum};
 		my $winmax;
 		my $winpop;
-		print "WARNING: chr$el window$wnum has $y->{$el}{$wnum}{'ct'} only total SNVs -- you may need to increase the window size (currently set at $dw)\n" if($y->{$el}{$wnum}{'ct'}<100);
+		print "WARNING: chr$el tile$wnum has $y->{$el}{$wnum}{'ct'} only total SNVs -- you may need to increase the tile size (currently set at $dw)\n" if($y->{$el}{$wnum}{'ct'}<100);
 		foreach my $pp(keys %$pl){
 			my $rate = $pl->{$pp}{'sum'}/$y->{$el}{$wnum}{'ct'};
 			my $metric = ($pl->{$pp}{'nzct'}/$y->{$el}{$wnum}{'ct'}) * $rate;
@@ -126,7 +126,7 @@ foreach my $k(keys %$s){
 my $out = $f . "_ancestry-predictions_tile$dw.tsv";
 open(OUT,">$out") || die "Can't write to $out -- fatal.\n";
 
-my $header_str = "GAI Population\tTotal SNV count\tPopulation non-zero AF SNV count\tGAI score\tLAI fraction (window:$dw bp)";
+my $header_str = "GAI Population\tTotal SNV count\tPopulation non-zero AF SNV count\tGAI score\tLAI fraction (tile:$dw bp)";
 if ($verbose) {
 	$header_str = $header_str . "\tSumAF\tAvgAF\tnzAvgAF\tAvgAF * nzAF_SNV_count\n";
 } else {
@@ -151,8 +151,8 @@ foreach my $population(sort {$top->{$b}<=>$top->{$a}} keys %$top){
 	}
 }
 
-print "\nAncestry_inference_score: Average SNV allele frequency * rate of SNVs with non-zero allele frequency\n";
-print "Populations are ranked based on the Ancestry_inference_score\n";
+print "\nGAI score: Average SNV allele frequency * rate of SNVs with non-zero allele frequency\n";
+print "Populations are ranked based on the LAI fraction\n";
 if ($verbose) {
 	print "\nAbbreviations:\n\tAF: Allele Frequency\n\tnz: Non-zero\n";
 }
