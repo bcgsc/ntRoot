@@ -1,3 +1,5 @@
+![Logo](https://github.com/bcgsc/ntRoot/blob/master/ntroot-logo_colors.png)
+
 # ntRoot
 
 Ancestry inference from genomic data
