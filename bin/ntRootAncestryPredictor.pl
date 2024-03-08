@@ -126,9 +126,9 @@ foreach my $k(keys %$s){
 my $out = $f . "_ancestry-predictions_tile$dw.tsv";
 open(OUT,">$out") || die "Can't write to $out -- fatal.\n";
 
-my $header_str = "GAI Population\tTotal SNV count\tPopulation non-zero AF SNV count\tGAI score\tLAI fraction (tile:$dw bp)";
+my $header_str = "GAI Super-population\tLAI fraction (tile:$dw bp)\tGAI score\tTotal SNV count\tNon-zero AF SNV count";
 if ($verbose) {
-	$header_str = $header_str . "\tSumAF\tAvgAF\tnzAvgAF\tAvgAF * nzAF_SNV_count\n";
+	$header_str = $header_str . "\tSumAF\tAvgAF\tnzAvgAF\tnzSNVrate\tAvgAF * nzAF_SNV_count\n";
 } else {
 	$header_str = $header_str . "\n";
 }
@@ -140,7 +140,7 @@ foreach my $population(sort {$top->{$b}<=>$top->{$a}} keys %$top){
 	$rank++;
 	my $k = $population . "_AF";
 	my $percent = $top->{$population}/$total *100;
-	printf OUT "$population\t$xr\t$s->{$k}{'ct'}\t%.4f\t%.2f%%", ($s->{$k}{'prob'}, $percent);
+	printf OUT "$population\t%.2f%%\t%.4f\t$xr\t$s->{$k}{'ct'}", ($percent, $s->{$k}{'prob'});
 	if ($verbose) {
 		my $p = $s->{$k}{'sum'}/$xr;
 		my $c=$s->{$k}{'sum'}/$s->{$k}{'ct'};
@@ -153,9 +153,10 @@ foreach my $population(sort {$top->{$b}<=>$top->{$a}} keys %$top){
 
 print "\nGAI score: Average SNV allele frequency * rate of SNVs with non-zero allele frequency\n";
 print "Populations are ranked based on the LAI fraction\n";
+print "\nAbbreviations:\n\tAF: Allele Frequency";
 if ($verbose) {
-	print "\nAbbreviations:\n\tAF: Allele Frequency\n\tnz: Non-zero\n";
+	print "\n\tnz: Non-zero\n";
 }
-print "\nAncestry predictions available in:\n$out\n\n";
+print "\n\nAncestry predictions available in:\n$out\n\n";
 
 exit(0);
