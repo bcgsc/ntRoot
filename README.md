@@ -3,7 +3,7 @@
 Ancestry inference from genomic data
 
 ## Credit
-Written by Rene Warren
+Written by Rene Warren and Lauren Coombe
 
 ## Installation
 
