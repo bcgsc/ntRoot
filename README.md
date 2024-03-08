@@ -1,4 +1,4 @@
-![Logo](https://github.com/bcgsc/ntRoot/blob/master/ntroot-logo_colors.png)
+![Logo](https://github.com/bcgsc/ntRoot/ntroot-logo_colors.png)
 
 # ntRoot
 
