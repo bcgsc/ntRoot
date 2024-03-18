@@ -9,6 +9,7 @@ onsuccess:
 
 # Read parameters from config or set default values
 draft=config["draft"]
+draft_base = os.path.basename(os.path.realpath(draft))
 reads_prefix=config["reads"] if "reads" in config else ""
 k=config["k"]
 
@@ -44,6 +45,12 @@ rule ntroot_genome:
 rule ntroot_reads:
     input: f"{reads_prefix}_ntedit_k{k}_variants.vcf_ancestry-predictions_tile{tile_size}.tsv"
 
+rule ntroot_genome_lai:
+    input: f"{genome_prefix}_ntedit_k{k}_variants.vcf_ancestry-predictions-tile-resolution_tile{tile_size}.tsv"
+
+rule ntroot_reads_lai:
+    input: f"{reads_prefix}_ntedit_k{k}_variants.vcf_ancestry-predictions-tile-resolution_tile{tile_size}.tsv"
+
 rule ntedit_reads:
     input: 
         draft = draft
@@ -71,6 +78,13 @@ rule ntedit_genome:
         "{params.benchmark} run-ntedit snv --draft {draft} --genome {input.genomes} {params.params} "
         " {params.vcf_input}"
 
+rule samtools_faidx:
+    input: draft = draft
+    output: out_fai = f"{draft_base}.fai"
+    params:
+        benchmark = f"{time_command} samtools_faidx_{draft_base}.time"
+    shell:
+        "{params.benchmark} samtools faidx -o {output.out_fai} {input.draft}"
 
 rule ancestry_prediction:
     input: 
@@ -82,5 +96,19 @@ rule ancestry_prediction:
         tile_size = tile_size,
         verbosity = v
     shell:
-        "{params.benchmark} ntRootAncestryPredictor.pl {input.vcf} {params.tile_size} {params.verbosity}"
+        "{params.benchmark} ntRootAncestryPredictor.pl -f {input.vcf} -t {params.tile_size} -v {params.verbosity}"
+
+
+rule ancestry_prediction_lai:
+    input: 
+        vcf = "{vcf}",
+        ref_fai = f"{draft_base}.fai"
+    output: 
+        lai_output = "{vcf}_ancestry-predictions-tile-resolution_tile{tile_size}.tsv"
+    params:
+        benchmark = f"{time_command} ancestry_prediction_k{k}_tile{tile_size}.time",
+        tile_size = tile_size,
+        verbosity = v
+    shell:
+        "{params.benchmark} ntRootAncestryPredictor.pl -f {input.vcf} -t {params.tile_size} -v {params.verbosity} -r 1 -i {input.ref_fai}"
 

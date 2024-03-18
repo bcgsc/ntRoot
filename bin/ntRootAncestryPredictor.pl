@@ -5,31 +5,66 @@
 #   rwarren at bcgsc.ca
 
 #NAME
-#   nteditAncestryPredictor.pl
+#   ntRootAncestryPredictor.pl
 
 #SYNOPSIS
-#   ntedit-driven human super-population-level ancestry predictions using 1000 Genomes Project integrated variant call set
+#   ntRoot : ntedit-powered human super-population-level ancestry predictions using 1000 Genomes Project integrated variant call set
 
 #DOCUMENTATION
 #   Readme distributed with this software @ www.bcgsc.ca
+#   http://www.bcgsc.ca/platform/bioinfo/software/ntroot
 #   http://www.bcgsc.ca/platform/bioinfo/software/ntedit
 #   We hope this code is useful to you -- Please send comments & suggestions to rwarren * bcgsc.ca
-#   If you use ntEdit, the ntEdit code or ideas, please cite our work
+#   If you use ntRoot, ntEdit, the ntEdit code or ideas, please cite our work
 
 #LICENSE
-#   ntEdit Copyright (c) 2018-now British Columbia Cancer Agency Branch.  All rights reserved.
-#   ntEdit and companion code is released under the GNU General Public License v3
+#   ntRoot Copyright (c) 2024-now British Columbia Cancer Agency Branch.  All rights reserved.
+#   ntRoot and companion code is released under the GNU General Public License v3
 
 use strict;
+use Getopt::Std;
+use vars qw($opt_f $opt_t $opt_v $opt_r $opt_i);
+
 my $dw = 5000000;
 my $verbose = 0;
-if($#ARGV<0){
-   die "Usage: $0 < *variants.vcf > < tile size default: $dw > < verbose (default 0) >\n";
+my $tile_resolution = 0;
+my $fai = "";
+
+getopts('f:t:v:r:i:');
+
+sub usage_page {
+	print "\nUsage: $0 -f *variants.vcf [-t TILE_SIZE] [-v VERBOSITY] [-r TILE_OUTPUT] [-i FAI]\n";
+	print "\t-f\tVariants VCF file\n";
+	print "\t-t\tTile size [$dw bp]\n";
+	print "\t-v\tVerbose mode - 0 (False) or 1 (True) [0]\n";
+	print "\t-r\tOutput ancestry inferences per tile - 0 (False) or 1 (True) [0]\n";
+	print "\t-i\tReference FAI file (Only required when -r specified)\n\n";
 }
 
-my $f = $ARGV[0];
-$dw = $ARGV[1] if($ARGV[1]);
-$verbose = $ARGV[2] if($ARGV[2]);
+
+if (!$opt_f || ($opt_r && !$opt_i)) {
+	usage_page();
+	exit(1);
+}
+
+my $f = $opt_f;
+$dw = $opt_t if ($opt_t);
+$verbose = $opt_v if ($opt_v);
+$tile_resolution = $opt_r if ($opt_r);
+$fai = $opt_i if ($opt_r && $opt_i);
+	
+	
+my $chr;
+# Read in the FAI file for chromosome lengths
+if ($tile_resolution) {
+	open(IN,$fai) || die "Can't read $fai --fatal (is the file in your working directory?)\n";
+	while(<IN>){
+	chomp;
+	my @a=split(/\t/);
+	$chr->{$a[0]}=$a[1];
+	}
+}
+
 
 open(IN, $f) || die "can't read $f -- fatal.\n";
 
@@ -37,6 +72,7 @@ my $xr=0;
 my $s;
 my $y;
 my $z;
+my $populations;
 
 print "Inferring ancestry using SNVs (single nucleotide variants)...\n\n";
 
@@ -57,6 +93,9 @@ while(<IN>){
 		foreach my $el(@c){
 			my @d=split(/\=/,$el);
 			my $pop=$1 if($d[0]=~/(\S+)\_/);
+			if (! defined $populations->{$pop}) {
+				$populations->{$pop} = 1;
+			}
 			$s->{$d[0]}{'sum'}+=$d[1];
 
 			#chr  winnum   pop
@@ -83,6 +122,17 @@ while(<IN>){
 ###calculate metric per tile
 my $top;
 my $total;
+my @ordered_populations = sort keys %$populations;
+
+if ($tile_resolution) {
+	my $best = $f . "_ancestry-predictions-tile-resolution_tile$dw.tsv";
+	open(BEST,">$best") || die "Can't write to $best -- fatal.\n";
+	print BEST "chrom\tstart\tend\tancestry_prediction";
+	foreach my $population (@ordered_populations) {
+		print BEST "\t$population-score";
+	}
+	print BEST "\n";
+}
 
 foreach my $el(sort {$a<=>$b} keys %$z){
 	my $wnl=$z->{$el};
@@ -90,10 +140,12 @@ foreach my $el(sort {$a<=>$b} keys %$z){
 		my $pl = $wnl->{$wnum};
 		my $winmax;
 		my $winpop;
+		my $window_population_metric;
 		print "WARNING: chr$el tile$wnum has $y->{$el}{$wnum}{'ct'} only total SNVs -- you may need to increase the tile size (currently set at $dw)\n" if($y->{$el}{$wnum}{'ct'}<100);
 		foreach my $pp(keys %$pl){
 			my $rate = $pl->{$pp}{'sum'}/$y->{$el}{$wnum}{'ct'};
 			my $metric = ($pl->{$pp}{'nzct'}/$y->{$el}{$wnum}{'ct'}) * $rate;
+			$window_population_metric->{$pp} = $metric;
 			if($metric>$winmax){
 				$winmax = $metric;
 				$winpop = $pp;
@@ -101,10 +153,25 @@ foreach my $el(sort {$a<=>$b} keys %$z){
 		}
 		$top->{$winpop} += $dw;
 		$total += $dw;
+		if ($tile_resolution) {
+			my $chunk = $wnum * $dw;
+			my $start = $chunk + 1;
+			my $end = $chunk + $dw;
+			$end = $chr->{$el} if($end>$chr->{$el});
+			print BEST "$el\t$start\t$end\t$winpop";
+			foreach my $population (@ordered_populations) {
+				printf BEST "\t%.4f", ($window_population_metric->{$population});
+			}
+			print BEST "\n";
+		}
+
 	}
 }
 
 close IN;
+if ($tile_resolution) {
+	close BEST;
+}
 
 if(! $xr){
 	print "\n! There are no cross-referenced SNV in $f; no ancestry predictions can be reported !\n\n\tDid you:\n\t1) Run ntedit with the correct and properly-formatted human genome input\n\t\te.g., chromosome 14 should be: >14\n\t\te.g., -f GRCh38.fa\n\n\t2) Supply the 1000 Genomes Project integrated variant callset vcf to ntedit with -l\n\t\te.g., ntedit -r ERR3242189_k55.bf -f GRCh38.fa -t 48 -Y 0.55 -s 1 -l 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz\n\n";

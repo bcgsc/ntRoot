@@ -39,6 +39,8 @@ def set_up_parser():
                         required=True, type=int)
     parser.add_argument("--tile", help="Tile size for ancestry fraction inference (bp) [default=5000000]",
                         default=5000000, type=int)
+    parser.add_argument("--lai", help="Output ancestry predictons per tile in a separate output file",
+                        action="store_true")
     parser.add_argument("-t",
                         help="Number of threads [default=4]", default=4, type=int)
     parser.add_argument("-z",
@@ -77,9 +79,15 @@ def main():
                     "Parameter settings:"]
 
     if args.reads:
-        smk_rule = "ntroot_reads"
+        if args.lai:
+            smk_rule = "ntroot_reads_lai"
+        else:
+            smk_rule = "ntroot_reads"
     if args.genome:
-        smk_rule = "ntroot_genome"
+        if args.lai:
+            smk_rule = "ntroot_genome_lai"
+        else:
+            smk_rule = "ntroot_genome"
 
     command = f"snakemake -s {base_dir}/ntroot_run_pipeline.smk {smk_rule} --nolock -p --cores {args.t} " \
             f"--config draft={args.draft} k={args.k} t={args.t} " \
@@ -100,7 +108,9 @@ def main():
                         f"\t-j {args.j}",
                         f"\t-Y {args.Y}"
                     ])
-
+    
+    if args.lai:
+        intro_string.append("\t--lai")
 
     if args.verbose:
         intro_string.append("\t-v")
