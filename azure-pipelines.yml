@@ -19,12 +19,14 @@ jobs:
     displayName: Install Anaconda packages
   
   - script: |
+      source activate ntroot_CI
       meson setup build --prefix=$(pwd)/test_build
       cd build
       ninja install
     displayName: Compile ntRoot
   
   - script: |
+      source activate ntroot_CI
       export PATH=$(pwd)/test_build/bin:$PATH
       which ntroot
       cd demo
