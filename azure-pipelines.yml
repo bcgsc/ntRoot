@@ -19,7 +19,7 @@ jobs:
   - script: |
       source activate ntroot_CI
       conda install --yes --name ntroot_CI -c conda-forge -c bioconda python=3.9 mamba
-      mamba install --yes -c conda-forge -c bioconda meson ninja snakemake perl btllib
+      mamba install --yes -c conda-forge -c bioconda meson ninja snakemake perl btllib compilers
     displayName: Install Conda packages
   
   - script: |
