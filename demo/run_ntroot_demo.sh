@@ -13,7 +13,7 @@ ntroot --draft chr21.fa --reads ERR3239334.chr21_ -k 55 -l pop-spec-snp_chr21.vc
 
 prediction=$(cat ERR3239334.chr21__ntedit_k55_variants.vcf_ancestry-predictions_tile5000000.tsv | awk '{print $1}' |head -n 2 |tail -n 1)
 
-if [ ${pred} == "EUR" ]; then
+if [ ${prediction} == "EUR" ]; then
 	echo "ntRoot reads test successful!"
 else 
 	echo "ntRoot reads test failed.. Please check your installation."
