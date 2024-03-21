@@ -1,19 +1,32 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# See https://docs.microsoft.com/azure/devops/pipelines/languages/python
 
-trigger:
-- main
+jobs:
+- job:
+  displayName: ubuntu-latest
+  pool:
+    vmImage: 'ubuntu-latest'
 
-pool:
-  vmImage: ubuntu-latest
+  steps:
+  - script: echo "##vso[task.prependpath]$CONDA/bin"
+    displayName: Add conda to PATH
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - script: conda create --yes --quiet --name ntroot_CI
+    displayName: Create Anaconda environment
+  - script: |
+      source activate ntroot_CI
+      conda install --yes --quiet --name ntroot_CI -c conda-forge -c bioconda python=3.9 mamba
+      mamba install --yes --quiet -c conda-forge -c bioconda meson ninja snakemake perl
+    displayName: Install Anaconda packages
+  
+  - script: |
+      meson setup build --prefix=$(pwd)/test_build
+      cd build
+      ninja install
+    displayName: Compile ntRoot
+  
+  - script: |
+      export PATH=$(pwd)/test_build/bin:$PATH
+      which ntroot
+      cd demo
+      ./run_ntroot_demo.sh
+    displayName: Run ntRoot test
