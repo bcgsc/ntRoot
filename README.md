@@ -27,6 +27,7 @@ ntRoot and all required scripts will be installed to: /path/to/install/directory
 - [snakemake](https://snakemake.readthedocs.io/en/stable/)
 - [btllib](https://github.com/bcgsc/btllib)
 - [boost](https://www.boost.org/doc/libs/1_61_0/more/getting_started/unix-variants.html)
+- [ntcard](https://github.com/bcgsc/ntCard)
 
 ## Usage
 ```
