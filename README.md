@@ -41,6 +41,7 @@ optional arguments:
   -l L                  input VCF file with annotated variants (e.g., clinvar.vcf)
   -k K                  k-mer size
   --tile TILE           Tile size for ancestry fraction inference (bp) [default=5000000]
+  --lai                 Output ancestry predictons per tile in a separate output file
   -t T                  Number of threads [default=4]
   -z Z                  Minimum contig length [default=100]
   -j J                  controls size of k-mer subset. When checking subset of k-mers, check every jth k-mer [default=3]
