@@ -7,6 +7,10 @@ jobs:
     vmImage: 'ubuntu-latest'
 
   steps:
+  - checkout: self
+    persistCredentials: true
+    submodules: true
+
   - script: echo "##vso[task.prependpath]$CONDA/bin"
     displayName: Add conda to PATH
 
@@ -15,8 +19,8 @@ jobs:
   - script: |
       source activate ntroot_CI
       conda install --yes --quiet --name ntroot_CI -c conda-forge -c bioconda python=3.9 mamba
-      mamba install --yes --quiet -c conda-forge -c bioconda meson ninja snakemake perl btllib
-    displayName: Install Anaconda packages
+      mamba install --yes --quiet --name ntroot_CI -c conda-forge -c bioconda meson ninja snakemake perl btllib
+    displayName: Install Conda packages
   
   - script: |
       source activate ntroot_CI
