@@ -25,6 +25,7 @@ ntRoot and all required scripts will be installed to: /path/to/install/directory
 - [meson](https://mesonbuild.com/)
 - [ninja](https://ninja-build.org/)
 - [snakemake](https://snakemake.readthedocs.io/en/stable/)
+- [btllib](https://github.com/bcgsc/btllib)
 
 ## Usage
 ```
