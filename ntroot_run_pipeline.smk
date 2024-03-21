@@ -55,7 +55,10 @@ rule ntedit_reads:
     input: 
         draft = draft
     output:
-        out_vcf = f"{reads_prefix}_ntedit_k{k}_variants.vcf"
+        out_vcf = f"{reads_prefix}_ntedit_k{k}_variants.vcf",
+        out_fa = temp(f"{reads_prefix}_ntedit_k{k}_edited.fa"),
+        out_changes = temp(f"{reads_prefix}_ntedit_k{k}_changes.tsv"),
+        out_bf = temp(f"{reads_prefix}_k{k}.bf")
     params:
         benchmark = f"{time_command} ntedit_snv_k{k}.time",
         params = f"-k {k} -t {t} -z {z} -j {j} -Y {Y} --solid ",
@@ -69,7 +72,10 @@ rule ntedit_genome:
         draft = draft,
         genomes = genomes
     output:
-        out_vcf = f"{genome_prefix}_ntedit_k{k}_variants.vcf"
+        out_vcf = f"{genome_prefix}_ntedit_k{k}_variants.vcf",
+        out_fa = temp(f"{genome_prefix}_ntedit_k{k}_edited.fa"),
+        out_changes = temp(f"{genome_prefix}_ntedit_k{k}_changes.tsv"),
+        out_bf = temp(f"{genome_prefix}_k{k}.bf")
     params:
         benchmark = f"{time_command} ntedit_snv_k{k}.time",
         params = f"-k {k} -t {t} -z {z} -j {j} -Y {Y}",

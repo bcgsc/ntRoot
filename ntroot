@@ -32,7 +32,7 @@ def set_up_parser():
                         help="Genome assembly file(s) for detecting SNVs on --draft", nargs="+")
     parser.add_argument("-l",
                         help="input VCF file with annotated variants (e.g., clinvar.vcf)",
-                        type=str)
+                        type=str, required=True)
 
     parser.add_argument("-k",
                         help="k-mer size",
@@ -108,7 +108,7 @@ def main():
                         f"\t-j {args.j}",
                         f"\t-Y {args.Y}"
                     ])
-    
+
     if args.lai:
         intro_string.append("\t--lai")
 
@@ -118,11 +118,10 @@ def main():
     else:
         command += " v=0"
 
-    if args.l:
-        if not os.path.isfile(args.l):
-            raise FileNotFoundError(f"VCF file {args.l} not found")
-        intro_string.append(f"\t-l {args.l}")
-        command += f" l={args.l}"
+    if not os.path.isfile(args.l):
+        raise FileNotFoundError(f"VCF file {args.l} not found")
+    intro_string.append(f"\t-l {args.l}")
+    command += f" l={args.l}"
 
     print("\n".join(intro_string), flush=True)
 

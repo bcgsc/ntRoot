@@ -28,7 +28,7 @@ ntRoot and all required scripts will be installed to: /path/to/install/directory
 
 ## Usage
 ```
-usage: ntroot [-h] --draft DRAFT [--reads READS] [--genome GENOME [GENOME ...]] [-l L] -k K [--tile TILE] [-t T] [-z Z] [-j J] [-Y Y] [-v] [-V] [-n] [-f]
+usage: ntroot [-h] --draft DRAFT [--reads READS] [--genome GENOME [GENOME ...]] -l L -k K [--tile TILE] [--lai] [-t T] [-z Z] [-j J] [-Y Y] [-v] [-V] [-n] [-f]
 
 ntRoot: Ancestry inference from genomic data
 
@@ -41,6 +41,7 @@ optional arguments:
   -l L                  input VCF file with annotated variants (e.g., clinvar.vcf)
   -k K                  k-mer size
   --tile TILE           Tile size for ancestry fraction inference (bp) [default=5000000]
+  --lai                 Output ancestry predictons per tile in a separate output file
   -t T                  Number of threads [default=4]
   -z Z                  Minimum contig length [default=100]
   -j J                  controls size of k-mer subset. When checking subset of k-mers, check every jth k-mer [default=3]
