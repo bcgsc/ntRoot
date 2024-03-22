@@ -24,7 +24,7 @@ echo "Running ntRoot genome demo..."
 
 ntroot --draft chr21.fa --genome HuRef.chr21.fa -k 55 -l pop-spec-snp_chr21.vcf.gz
 
-prediction=$(HuRef.chr21_ntedit_k55_variants.vcf_ancestry-predictions_tile5000000.tsv | awk '{print $1}' |head -n 2 |tail -n 1)
+prediction=$(cat HuRef.chr21_ntedit_k55_variants.vcf_ancestry-predictions_tile5000000.tsv | awk '{print $1}' |head -n 2 |tail -n 1)
 if [ ${prediction} == "EUR" ]; then
 	echo "ntRoot genome test successful!"
 else 
