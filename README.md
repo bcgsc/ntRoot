@@ -25,6 +25,10 @@ ntRoot and all required scripts will be installed to: /path/to/install/directory
 - [meson](https://mesonbuild.com/)
 - [ninja](https://ninja-build.org/)
 - [snakemake](https://snakemake.readthedocs.io/en/stable/)
+- [btllib](https://github.com/bcgsc/btllib)
+- [boost](https://www.boost.org/doc/libs/1_61_0/more/getting_started/unix-variants.html)
+- [ntCard](https://github.com/bcgsc/ntCard)
+- [ntHits](https://github.com/bcgsc/ntHits)
 
 ## Usage
 ```
@@ -54,3 +58,11 @@ optional arguments:
 Note: please specify --reads OR --genome (not both)
 If you have any questions about ntRoot, please open an issue at https://github.com/bcgsc/ntRoot
 ```
+
+## ntRoot demo
+To test your installation:
+```
+cd demo
+./run_ntroot_demo.sh
+```
+Ensure that the ntRoot installation is available on your PATH.
