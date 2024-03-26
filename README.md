@@ -29,6 +29,7 @@ ntRoot and all required scripts will be installed to: /path/to/install/directory
 - [boost](https://www.boost.org/doc/libs/1_61_0/more/getting_started/unix-variants.html)
 - [ntCard](https://github.com/bcgsc/ntCard)
 - [ntHits](https://github.com/bcgsc/ntHits)
+- [samtools](https://www.htslib.org/)
 
 ## Usage
 ```
