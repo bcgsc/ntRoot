@@ -45,6 +45,7 @@ ntRoot and all required scripts will be installed to: /path/to/install/directory
 - [boost](https://www.boost.org/doc/libs/1_61_0/more/getting_started/unix-variants.html)
 - [ntCard](https://github.com/bcgsc/ntCard)
 - [ntHits](https://github.com/bcgsc/ntHits)
+- [samtools](https://www.htslib.org/)
 
 ## Usage <a name=usage></a>
 ```
@@ -83,7 +84,6 @@ cd demo
 ```
 Ensure that the ntRoot installation is available on your PATH.
 
-
 ## Citing <a name=citing></a>
 
 Thank you for your [![Stars](https://img.shields.io/github/stars/bcgsc/ntRoot.svg)](https://github.com/bcgsc/ntRoot/stargazers) and for using and promoting this free software! We hope that ntRoot is useful to you and your research.
@@ -99,9 +99,9 @@ TBD
 
 ## License <a name=license></a>
 
-ntEdit Copyright (c) 2018-2023 British Columbia Cancer Agency Branch.  All rights reserved.
+ntRoot Copyright (c) 2024-present British Columbia Cancer Agency Branch.  All rights reserved.
 
-ntEdit is released under the GNU General Public License v3
+ntRoot is released under the GNU General Public License v3
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -117,4 +117,3 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 For commercial licensing options, please contact
 Patrick Rebstein <prebstein@bccancer.bc.ca>
-
