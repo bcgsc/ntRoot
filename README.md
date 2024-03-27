@@ -99,9 +99,9 @@ TBD
 
 ## License <a name=license></a>
 
-ntEdit Copyright (c) 2018-2023 British Columbia Cancer Agency Branch.  All rights reserved.
+ntRoot Copyright (c) 2024-present British Columbia Cancer Agency Branch.  All rights reserved.
 
-ntEdit is released under the GNU General Public License v3
+ntRoot is released under the GNU General Public License v3
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
