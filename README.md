@@ -4,15 +4,26 @@
 
 Ancestry inference from genomic data
 
-## Credit
+## Contents
+
+1. [Credit](#credit)
+2. [Description](#description)
+3. [Installation](#install)
+4. [Dependencies](#dependencies)
+5. [Usage](#usage)
+6. [Demo](#demo)
+7. [Citing](#citing)
+8. [License](#license)
+
+## Credit  <a name=credit></a>
 Written by René L Warren and Lauren Coombe
 
-## Synopsis
+## Description <a name=description></a>
 ntRoot is a framework for ancestry inference from genomic data, offering both Local Ancestry Inference (LAI) and Global Ancestry Inference (GAI). Leveraging integrated variant call sets from the 1000 Genomes Project (1kGP), ntRoot provides accurate predictions of super-population ancestry with speed and efficiency from any* Whole Genome Sequencing (WGS) datasets and complete, or draft-stage, Whole Genome Assemblies (WGA). Through streamlined processing and flexible genomic input, ntRoot holds promises for human ancestry inference of small-to-large patient/individual cohorts, enabling association studies with demographics and facilitating deeper insights into population genetics and disease risk factors.
 
 *i.e., 1kGP-independent 
 
-## Installation
+## Installation <a name=install></a>
 
 Installing ntRoot from the source code:
 ```
@@ -24,7 +35,7 @@ ninja install
 ```
 ntRoot and all required scripts will be installed to: /path/to/install/directory
 
-### Dependencies
+### Dependencies <a name=dependencies></a>
 - python 3.9+
 - perl
 - [meson](https://mesonbuild.com/)
@@ -35,7 +46,7 @@ ntRoot and all required scripts will be installed to: /path/to/install/directory
 - [ntCard](https://github.com/bcgsc/ntCard)
 - [ntHits](https://github.com/bcgsc/ntHits)
 
-## Usage
+## Usage <a name=usage></a>
 ```
 usage: ntroot [-h] --draft DRAFT [--reads READS] [--genome GENOME [GENOME ...]] -l L -k K [--tile TILE] [--lai] [-t T] [-z Z] [-j J] [-Y Y] [-v] [-V] [-n] [-f]
 
@@ -64,10 +75,46 @@ Note: please specify --reads OR --genome (not both)
 If you have any questions about ntRoot, please open an issue at https://github.com/bcgsc/ntRoot
 ```
 
-## ntRoot demo
+## Demo <a name=demo></a>
 To test your installation:
 ```
 cd demo
 ./run_ntroot_demo.sh
 ```
 Ensure that the ntRoot installation is available on your PATH.
+
+
+## Citing <a name=citing></a>
+
+Thank you for your [![Stars](https://img.shields.io/github/stars/bcgsc/ntRoot.svg)](https://github.com/bcgsc/ntRoot/stargazers) and for using and promoting this free software! We hope that ntRoot is useful to you and your research.
+
+If you use ntRoot, please cite:
+
+[ntRoot: human ancestry inference at scale, from genomic data](https://zenodo.org/doi/10.5281/zenodo.10869033)
+<pre>
+Human ancestry inference at scale, from genomic data
+Warren RL, Coombe L, Wong J, Kazemi P, Birol I.
+TBD
+</pre>
+
+## License <a name=license></a>
+
+ntEdit Copyright (c) 2018-2023 British Columbia Cancer Agency Branch.  All rights reserved.
+
+ntEdit is released under the GNU General Public License v3
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, version 3.
+ 
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+For commercial licensing options, please contact
+Patrick Rebstein <prebstein@bccancer.bc.ca>
+
