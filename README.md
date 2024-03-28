@@ -25,6 +25,11 @@ ntRoot is a framework for ancestry inference from genomic data, offering both Lo
 
 ## Installation <a name=install></a>
 
+Installing ntRoot using conda (recommended):
+```
+conda install -c bioconda -c conda-forge ntroot
+```
+
 Installing ntRoot from the source code:
 ```
 git clone --recurse-submodules https://github.com/bcgsc/ntRoot.git
