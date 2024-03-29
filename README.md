@@ -1,6 +1,7 @@
 [![Release](https://img.shields.io/github/release/bcgsc/ntRoot.svg)](https://github.com/bcgsc/ntRoot/releases)
 [![link](https://img.shields.io/badge/ntRoot-preprint-brightgreen)](https://www.biorxiv.org/content/10.1101/2024.03.26.586646v1)
 [![Conda](https://img.shields.io/conda/dn/bioconda/ntroot?label=Conda)](https://anaconda.org/bioconda/ntroot)
+
 ![Logo](https://github.com/bcgsc/ntRoot/blob/main/ntroot-logo_colors.png)
 
 # ntRoot
