@@ -103,7 +103,7 @@ If you use ntRoot, please cite:
 <pre>
 Human ancestry inference at scale, from genomic data
 Warren RL, Coombe L, Wong J, Kazemi P, Birol I.
-[bioRxiv 2024.03.26.586646; doi: https://doi.org/10.1101/2024.03.26.586646](https://www.biorxiv.org/content/10.1101/2024.03.26.586646v1)
+bioRxiv 2024.03.26.586646; doi: https://doi.org/10.1101/2024.03.26.586646
 </pre>
 
 ## License <a name=license></a>
