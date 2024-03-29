@@ -25,7 +25,7 @@ Written by René L Warren and Lauren Coombe
 ## Description <a name=description></a>
 ntRoot is a framework for ancestry inference from genomic data, offering both Local Ancestry Inference (LAI) and Global Ancestry Inference (GAI). Leveraging integrated variant call sets from the 1000 Genomes Project (1kGP), ntRoot provides accurate predictions* of super-population ancestry with speed and efficiency from Whole Genome Sequencing (WGS) datasets and complete or draft-stage Whole Genome Assemblies (WGA). Through streamlined processing and flexible genomic input, ntRoot holds promises for human ancestry inference of small-to-large patient/individual cohorts, enabling association studies with demographics and facilitating deeper insights into population genetics and disease risk factors.
 
-*On base-accurate quality data, including Illumina short read and PacBio CCS HiFi long read datasets, complete reference genomes and polished, Oxford Nanopore Technology long read Flye and Shasta draft genome assemblies 
+*Tested on base-accurate quality data, including Illumina short read and PacBio CCS HiFi long read datasets, complete reference genomes and polished, Oxford Nanopore Technology long read Flye and Shasta draft genome assemblies 
 
 ## Installation <a name=install></a>
 
