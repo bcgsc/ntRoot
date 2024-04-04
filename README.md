@@ -15,9 +15,10 @@ Ancestry inference from genomic data
 3. [Installation](#install)
 4. [Dependencies](#dependencies)
 5. [Usage](#usage)
-6. [Demo](#demo)
-7. [Citing](#citing)
-8. [License](#license)
+6. [Super-population level human ancestry predictions](#data)
+7. [Demo](#demo)
+8. [Citing](#citing)
+9. [License](#license)
 
 ## Credit  <a name=credit></a>
 Written by René L Warren and Lauren Coombe
@@ -56,6 +57,8 @@ ntRoot and all required scripts will be installed to: /path/to/install/directory
 - [ntHits](https://github.com/bcgsc/ntHits)
 - [samtools](https://www.htslib.org/)
 
+
+
 ## Usage <a name=usage></a>
 ```
 usage: ntroot [-h] --draft DRAFT [--reads READS] [--genome GENOME [GENOME ...]] -l L -k K [--tile TILE] [--lai] [-t T] [-z Z] [-j J] [-Y Y] [-v] [-V] [-n] [-f]
@@ -84,6 +87,49 @@ optional arguments:
 Note: please specify --reads OR --genome (not both)
 If you have any questions about ntRoot, please open an issue at https://github.com/bcgsc/ntRoot
 ```
+
+## Super-population level human ancestry predictions <a name=data></a>
+
+Using the 1kGP integrated variant call set.
+
+Download this archive:
+<pre>
+wget https://zenodo.org/records/10869034/files/ntroot_supplementary_zenodo.tar.gz?download=1
+</pre>
+  
+from:
+<pre>
+https://zenodo.org/doi/10.5281/zenodo.10869033
+</pre>
+
+unzip and untar:
+<pre>
+unzip ntroot_supplementary_zenodo.tar.gz
+tar -xvf ntroot_supplementary_zenodo.tar
+</pre>
+
+access the files:
+<pre>
+cd ./ntroot_supplementary_zenodo/data
+ls
+1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
+GRCh38.fa.gz
+</pre>
+
+
+Users will specify:
+<pre>
+ntroot --reference GRCh38.fa.gz (--reads FILE_PREFIX or --genome FILE) -l 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz -k 55
+</pre>
+
+Example command:
+<pre>
+ntroot	-k	55	--reference	GRCh38.fa	--reads	ERR3242308_	-t	48	-Y	0.55	-l	1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
+</pre>
+
+
+Note: For more advanced users, and for ancestry predictions on organisms other than human, please contact us.
+
 
 ## Demo <a name=demo></a>
 To test your installation:
