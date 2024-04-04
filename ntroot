@@ -21,8 +21,9 @@ def set_up_parser():
                                             "If you have any questions about ntRoot, please open an "
                                             "issue at https://github.com/bcgsc/ntRoot")
     parser.add_argument("--draft",
-                help="Draft genome assembly (FASTA, Multi-FASTA, and/or gzipped compatible)",
-                required=True)
+                help=argparse.SUPPRESS)
+    parser.add_argument("-r", "--reference",
+                help="Reference genome (FASTA, Multi-FASTA, and/or gzipped compatible)")
 
     parser.add_argument("--reads",
                 help="Prefix of input reads file(s) for detecting SNVs. "
@@ -72,6 +73,11 @@ def main():
 
     if (args.reads and args.genome) or (not args.reads and not args.genome):
         raise argparse.ArgumentTypeError("Please specify --reads OR --genome")
+
+    if not args.draft and not args.reference:
+        raise argparse.ArgumentTypeError("Please specify the reference genome with --reference")
+    if args.draft:
+        args.reference = args.draft
 
     base_dir = os.path.dirname(os.path.realpath(__file__))
 
