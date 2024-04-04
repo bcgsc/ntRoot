@@ -30,7 +30,7 @@ def set_up_parser():
                     "All files in the working directory with the specified prefix will be used. "
                     "(fastq, fasta, gz, bz, zip)", type=str)
     parser.add_argument("--genome",
-                        help="Genome assembly file(s) for detecting SNVs on --draft", nargs="+")
+                        help="Genome assembly file(s) for detecting SNVs compared to --reference", nargs="+")
     parser.add_argument("-l",
                         help="input VCF file with annotated variants (e.g., clinvar.vcf)",
                         type=str, required=True)
@@ -96,7 +96,7 @@ def main():
             smk_rule = "ntroot_genome"
 
     command = f"snakemake -s {base_dir}/ntroot_run_pipeline.smk {smk_rule} --nolock -p --cores {args.t} " \
-            f"--config draft={args.draft} k={args.k} t={args.t} " \
+            f"--config draft={args.reference} k={args.k} t={args.t} " \
             f"z={args.z} tile_size={args.tile} " \
             f"j={args.j} Y={args.Y} "
 
@@ -108,7 +108,7 @@ def main():
         command += f"reads={args.reads}"
 
     intro_string.extend([f"\t-k {args.k}",
-                        f"\t--draft {args.draft}",
+                        f"\t--reference {args.reference}",
                         f"\t-t {args.t}",
                         f"\t-z {args.z}",
                         f"\t-j {args.j}",
