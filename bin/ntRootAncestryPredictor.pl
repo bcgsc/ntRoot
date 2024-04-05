@@ -1,8 +1,8 @@
 #!/usr/bin/env perl
 
-#AUTHOR
+#AUTHORS
 #   Rene Warren
-#   rwarren at bcgsc.ca
+#   Lauren Coombe
 
 #NAME
 #   ntRootAncestryPredictor.pl
@@ -86,39 +86,43 @@ while(<IN>){
 		my $wn = int($a[1] / $dw);
 		$xr++;
 
-		my @b=split(/\;/,$a[7]);
-		my @e=split(/\=/,$b[3]);
-		my @c=($b[4],$b[5],$b[6],$b[7],$b[8]);
+                my @alleles = split(/\^/,$a[7]);
 
-		foreach my $el(@c){
-			my @d=split(/\=/,$el);
-			my $pop=$1 if($d[0]=~/(\S+)\_/);
-			if (! defined $populations->{$pop}) {
-				$populations->{$pop} = 1;
-			}
-			$s->{$d[0]}{'sum'}+=$d[1];
+                #21      5097811 .       G       A       .       PASS    AD=11^AC=115;AN=5096;DP=12758;AF=0.02;EAS_AF=0.03;EUR_AF=0.01;AFR_AF=0.03;AMR_AF=0.03;SAS_AF=0.03;VT=SNP;NS=2548        GT      1/1
 
-			#chr  winnum   pop
-			$z->{$a[0]}{$wn}{$pop}{'sum'}+=$d[1];
-			$y->{$a[0]}{$wn}{'ct'}++;
+                foreach my $allele(@alleles){
+
+			my @b=split(/\;/,$allele);
+
+			foreach my $el(@b){
+				my @d=split(/\=/,$el);
+				if($d[0]=~/(\S+)\_AF/){
+					my $pop=$1;
+					if (! defined $populations->{$pop}) {
+						$populations->{$pop} = 1;
+					}
+					$s->{$d[0]}{'sum'}+=$d[1];
+
+					#chr  winnum   pop
+					$z->{$a[0]}{$wn}{$pop}{'sum'}+=$d[1];
+					$y->{$a[0]}{$wn}{'ct'}++;
 
 
-			if($d[1]){$s->{$d[0]}{'ct'}++;
-			$z->{$a[0]}{$wn}{$pop}{'nzct'}++;
-			#LG      start   end     value   color
-			if($a[1]>$max){
-				$max=$a[1];
-				$maxpop=$pop;
+					if($d[1]){
+						$s->{$d[0]}{'ct'}++;
+						$z->{$a[0]}{$wn}{$pop}{'nzct'}++;
+						if($a[1]>$max){
+							$max=$a[1];
+							$maxpop=$pop;
+						}
+					} else{
+						$d[1]=1;
+					}
 				}
-			} else{
-				$d[1]=1;
 			}
-			if(! defined $s->{$d[0]}{'eval'}){$s->{$d[0]}{'eval'}=1;}
-			$s->{$d[0]}{'eval'} *= $d[1];
-		}
-   	}
+   		}
+	}
 }
-
 ###calculate metric per tile
 my $top;
 my $total;
