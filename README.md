@@ -94,7 +94,7 @@ Using the 1kGP integrated variant call set.
 
 Download this archive:
 <pre>
-wget https://zenodo.org/records/10869034/files/ntroot_supplementary_zenodo.tar.gz
+>wget https://zenodo.org/records/10869034/files/ntroot_supplementary_zenodo.tar.gz
 </pre>
   
 from:
@@ -104,27 +104,27 @@ https://zenodo.org/doi/10.5281/zenodo.10869033
 
 unzip and untar:
 <pre>
-unzip ntroot_supplementary_zenodo.tar.gz
-tar -xvf ntroot_supplementary_zenodo.tar
+>tar xvzf ntroot_supplementary_zenodo.tar.gz
 </pre>
 
 access the files:
 <pre>
-cd ./ntroot_supplementary_zenodo/data
-ls
+>cd ./ntroot_supplementary_zenodo/data
+>ls
 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
 GRCh38.fa.gz
+readme
 </pre>
 
 
 Users will specify:
 <pre>
-ntroot --reference GRCh38.fa.gz (--reads FILE_PREFIX or --genome FILE) -l 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz -k 55
+ntroot --reference GRCh38.fa.gz (--reads FILE_PREFIX OR --genome FILE) -l 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz -k 55
 </pre>
 
 Example command:
 <pre>
-ntroot	-k	55	--reference	GRCh38.fa.gz	--reads	ERR3242308_	-t	48	-Y	0.55	-l	1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
+ntroot	-k 55	--reference	GRCh38.fa.gz	--reads	ERR3242308_	-t	48	-Y	0.55	-l	1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
 </pre>
 
 
