@@ -61,16 +61,17 @@ ntRoot and all required scripts will be installed to: /path/to/install/directory
 
 ## Usage <a name=usage></a>
 ```
-usage: ntroot [-h] --draft DRAFT [--reads READS] [--genome GENOME [GENOME ...]] -l L -k K [--tile TILE] [--lai] [-t T] [-z Z] [-j J] [-Y Y] [-v] [-V] [-n] [-f]
+usage: ntroot [-h] -r REFERENCE [--reads READS] [--genome GENOME [GENOME ...]] -l L -k K [--tile TILE] [--lai] [-t T] [-z Z] [-j J] [-Y Y] [-v] [-V] [-n] [-f]
 
 ntRoot: Ancestry inference from genomic data
 
 optional arguments:
   -h, --help            show this help message and exit
-  --draft DRAFT         Draft genome assembly (FASTA, Multi-FASTA, and/or gzipped compatible)
+  -r REFERENCE, --reference REFERENCE
+                        Reference genome (FASTA, Multi-FASTA, and/or gzipped compatible)
   --reads READS         Prefix of input reads file(s) for detecting SNVs. All files in the working directory with the specified prefix will be used. (fastq, fasta, gz, bz, zip)
   --genome GENOME [GENOME ...]
-                        Genome assembly file(s) for detecting SNVs on --draft
+                        Genome assembly file(s) for detecting SNVs compared to --reference
   -l L                  input VCF file with annotated variants (e.g., clinvar.vcf)
   -k K                  k-mer size
   --tile TILE           Tile size for ancestry fraction inference (bp) [default=5000000]

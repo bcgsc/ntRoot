@@ -8,8 +8,8 @@ onsuccess:
     shutil.rmtree(".snakemake", ignore_errors=True)
 
 # Read parameters from config or set default values
-draft=config["draft"]
-draft_base = os.path.basename(os.path.realpath(draft))
+reference=config["reference"]
+draft_base = os.path.basename(os.path.realpath(reference))
 reads_prefix=config["reads"] if "reads" in config else ""
 k=config["k"]
 
@@ -53,7 +53,7 @@ rule ntroot_reads_lai:
 
 rule ntedit_reads:
     input: 
-        draft = draft
+        reference = reference
     output:
         out_vcf = f"{reads_prefix}_ntedit_k{k}_variants.vcf",
         out_fa = temp(f"{reads_prefix}_ntedit_k{k}_edited.fa"),
@@ -64,12 +64,12 @@ rule ntedit_reads:
         params = f"-k {k} -t {t} -z {z} -j {j} -Y {Y} --solid ",
         vcf_input = f"-l {l}" if l else ""
     shell:
-        "{params.benchmark} run-ntedit snv --draft {draft} --reads {reads_prefix} {params.params} "
+        "{params.benchmark} run-ntedit snv --draft {reference} --reads {reads_prefix} {params.params} "
         "{params.vcf_input}"
 
 rule ntedit_genome:
     input: 
-        draft = draft,
+        reference = reference,
         genomes = genomes
     output:
         out_vcf = f"{genome_prefix}_ntedit_k{k}_variants.vcf",
@@ -81,16 +81,16 @@ rule ntedit_genome:
         params = f"-k {k} -t {t} -z {z} -j {j} -Y {Y}",
         vcf_input = f"-l {l}" if l else ""
     shell:
-        "{params.benchmark} run-ntedit snv --draft {draft} --genome {input.genomes} {params.params} "
+        "{params.benchmark} run-ntedit snv --draft {reference} --genome {input.genomes} {params.params} "
         " {params.vcf_input}"
 
 rule samtools_faidx:
-    input: draft = draft
+    input: reference = reference
     output: out_fai = f"{draft_base}.fai"
     params:
         benchmark = f"{time_command} samtools_faidx_{draft_base}.time"
     shell:
-        "{params.benchmark} samtools faidx -o {output.out_fai} {input.draft}"
+        "{params.benchmark} samtools faidx -o {output.out_fai} {input.reference}"
 
 rule ancestry_prediction:
     input: 

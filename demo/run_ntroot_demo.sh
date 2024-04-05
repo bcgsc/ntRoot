@@ -9,7 +9,7 @@ echo "Running ntRoot reads demo..."
 wget https://www.bcgsc.ca/downloads/btl/ntroot/reads_demo/ERR3239334.chr21_1.fq.gz
 wget https://www.bcgsc.ca/downloads/btl/ntroot/reads_demo/ERR3239334.chr21_2.fq.gz
 
-ntroot --draft chr21.fa --reads ERR3239334.chr21_ -k 55 -l pop-spec-snp_chr21.vcf.gz
+ntroot --reference chr21.fa --reads ERR3239334.chr21_ -k 55 -l pop-spec-snp_chr21.vcf.gz
 
 prediction=$(cat ERR3239334.chr21__ntedit_k55_variants.vcf_ancestry-predictions_tile5000000.tsv | awk '{print $1}' |head -n 2 |tail -n 1)
 
@@ -22,7 +22,7 @@ fi
 
 echo "Running ntRoot genome demo..."
 
-ntroot --draft chr21.fa --genome HuRef.chr21.fa -k 55 -l pop-spec-snp_chr21.vcf.gz
+ntroot --reference chr21.fa --genome HuRef.chr21.fa -k 55 -l pop-spec-snp_chr21.vcf.gz
 
 prediction=$(cat HuRef.chr21_ntedit_k55_variants.vcf_ancestry-predictions_tile5000000.tsv | awk '{print $1}' |head -n 2 |tail -n 1)
 if [ ${prediction} == "EUR" ]; then
