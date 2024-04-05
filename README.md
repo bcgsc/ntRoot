@@ -94,7 +94,7 @@ Using the 1kGP integrated variant call set.
 
 Download this archive:
 <pre>
-wget https://zenodo.org/records/10869034/files/ntroot_supplementary_zenodo.tar.gz?download=1
+wget https://zenodo.org/records/10869034/files/ntroot_supplementary_zenodo.tar.gz
 </pre>
   
 from:
@@ -124,7 +124,7 @@ ntroot --reference GRCh38.fa.gz (--reads FILE_PREFIX or --genome FILE) -l 1000GP
 
 Example command:
 <pre>
-ntroot	-k	55	--reference	GRCh38.fa	--reads	ERR3242308_	-t	48	-Y	0.55	-l	1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
+ntroot	-k	55	--reference	GRCh38.fa.gz	--reads	ERR3242308_	-t	48	-Y	0.55	-l	1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
 </pre>
 
 
