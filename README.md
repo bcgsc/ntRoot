@@ -15,7 +15,7 @@ Ancestry inference from genomic data
 3. [Installation](#install)
 4. [Dependencies](#dependencies)
 5. [Usage](#usage)
-6. [Super-population level human ancestry predictions](#data)
+6. [Human ancestry predictions](#data)
 7. [Demo](#demo)
 8. [Citing](#citing)
 9. [License](#license)
@@ -88,7 +88,7 @@ Note: please specify --reads OR --genome (not both)
 If you have any questions about ntRoot, please open an issue at https://github.com/bcgsc/ntRoot
 ```
 
-## Super-population level human ancestry predictions <a name=data></a>
+## Human ancestry predictions <a name=data></a>
 
 Using the 1kGP integrated variant call set.
 
@@ -124,7 +124,7 @@ ntroot --reference GRCh38.fa.gz (--reads FILE_PREFIX OR --genome FILE) -l 1000GP
 
 Example command:
 <pre>
-ntroot	-k 55	--reference	GRCh38.fa.gz	--reads	ERR3242308_	-t	48	-Y	0.55	-l	1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
+ntroot -k 55 --reference GRCh38.fa.gz --reads	ERR3242308_ -t 48 -Y 0.55 -l 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
 </pre>
 
 
