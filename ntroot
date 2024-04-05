@@ -96,7 +96,7 @@ def main():
             smk_rule = "ntroot_genome"
 
     command = f"snakemake -s {base_dir}/ntroot_run_pipeline.smk {smk_rule} --nolock -p --cores {args.t} " \
-            f"--config draft={args.reference} k={args.k} t={args.t} " \
+            f"--config reference={args.reference} k={args.k} t={args.t} " \
             f"z={args.z} tile_size={args.tile} " \
             f"j={args.j} Y={args.Y} "
 
