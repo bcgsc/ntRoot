@@ -19,7 +19,7 @@ jobs:
   - script: |
       source activate ntroot_CI
       conda install --yes --name ntroot_CI -c conda-forge -c bioconda python=3.9 mamba
-      mamba install --yes -c conda-forge -c bioconda meson ninja snakemake perl btllib compilers boost-cpp ntcard nthits
+      mamba install --yes -c conda-forge -c bioconda meson ninja snakemake perl btllib=1.7.1 compilers boost-cpp ntcard nthits
     displayName: Install Conda packages
   
   - script: |
@@ -55,7 +55,7 @@ jobs:
   - script: |
       source activate ntroot_CI
       conda install --yes --name ntroot_CI -c conda-forge -c bioconda python=3.9 mamba
-      mamba install --yes -c conda-forge -c bioconda meson ninja snakemake perl btllib compilers boost-cpp ntcard nthits
+      mamba install --yes -c conda-forge -c bioconda meson ninja snakemake perl btllib=1.7.1 compilers boost-cpp ntcard nthits
     displayName: Install Conda packages
   
   - script: |
