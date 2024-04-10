@@ -39,22 +39,15 @@ Installing ntRoot from the source code:
 ```
 git clone --recurse-submodules https://github.com/bcgsc/ntRoot.git
 cd ntRoot
-meson setup build --prefix=/path/to/install/directory
-cd build
-ninja install
 ```
-ntRoot and all required scripts will be installed to: /path/to/install/directory
+No compilation is required for ntRoot (only the dependencies), so simply add the ntRoot repository to your PATH.
 
 ### Dependencies <a name=dependencies></a>
 - python 3.9+
 - perl
-- [meson](https://mesonbuild.com/)
-- [ninja](https://ninja-build.org/)
+- [ntEdit 2.0.0+](https://github.com/bcgsc/ntEdit)
 - [snakemake](https://snakemake.readthedocs.io/en/stable/)
 - [btllib](https://github.com/bcgsc/btllib)
-- [boost](https://www.boost.org/doc/libs/1_61_0/more/getting_started/unix-variants.html)
-- [ntCard](https://github.com/bcgsc/ntCard)
-- [ntHits](https://github.com/bcgsc/ntHits)
 - [samtools](https://www.htslib.org/)
 
 
