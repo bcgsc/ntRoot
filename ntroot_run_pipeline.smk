@@ -64,7 +64,7 @@ rule ntedit_reads:
         params = f"-k {k} -t {t} -z {z} -j {j} -Y {Y} --solid ",
         vcf_input = f"-l {l}" if l else ""
     shell:
-        "{params.benchmark} run-ntedit snv --draft {reference} --reads {reads_prefix} {params.params} "
+        "{params.benchmark} run-ntedit snv --reference {reference} --reads {reads_prefix} {params.params} "
         "{params.vcf_input}"
 
 rule ntedit_genome:
@@ -81,7 +81,7 @@ rule ntedit_genome:
         params = f"-k {k} -t {t} -z {z} -j {j} -Y {Y}",
         vcf_input = f"-l {l}" if l else ""
     shell:
-        "{params.benchmark} run-ntedit snv --draft {reference} --genome {input.genomes} {params.params} "
+        "{params.benchmark} run-ntedit snv --reference {reference} --genome {input.genomes} {params.params} "
         " {params.vcf_input}"
 
 rule samtools_faidx:
