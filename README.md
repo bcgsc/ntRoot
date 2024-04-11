@@ -37,7 +37,7 @@ conda install -c bioconda -c conda-forge ntroot
 
 Installing ntRoot from the source code:
 ```
-git clone --recurse-submodules https://github.com/bcgsc/ntRoot.git
+git clone https://github.com/bcgsc/ntRoot.git
 cd ntRoot
 ```
 No compilation is required for ntRoot (only the dependencies), so simply add the ntRoot repository to your PATH.
