@@ -45,7 +45,7 @@ No compilation is required for ntRoot (only the dependencies), so simply add the
 ### Dependencies <a name=dependencies></a>
 - python 3.9+
 - perl
-- [ntEdit 2.0.0+](https://github.com/bcgsc/ntEdit)
+- [ntEdit 2.0.1+](https://github.com/bcgsc/ntEdit)
 - [snakemake](https://snakemake.readthedocs.io/en/stable/)
 - [samtools](https://www.htslib.org/)
 
