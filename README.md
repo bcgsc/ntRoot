@@ -1,6 +1,7 @@
 [![Release](https://img.shields.io/github/release/bcgsc/ntRoot.svg)](https://github.com/bcgsc/ntRoot/releases)
 [![link](https://img.shields.io/badge/ntRoot-preprint-brightgreen)](https://www.biorxiv.org/content/10.1101/2024.03.26.586646v1)
 [![Conda](https://img.shields.io/conda/dn/bioconda/ntroot?label=Conda)](https://anaconda.org/bioconda/ntroot)
+[![Zenodo](https://img.shields.io/badge/ntRoot-zenodo-brightblue))](https://zenodo.org/doi/10.5281/zenodo.10869033)
 
 ![Logo](https://github.com/bcgsc/ntRoot/blob/main/ntroot-logo_colors.png)
 
@@ -87,7 +88,7 @@ Using the 1kGP integrated variant call set.
 
 Download this archive:
 <pre>
->wget https://zenodo.org/records/10869034/files/ntroot_supplementary_zenodo.tar.gz
+wget https://zenodo.org/records/10869034/files/ntroot_supplementary_zenodo.tar.gz
 </pre>
   
 from:
@@ -97,13 +98,14 @@ https://zenodo.org/doi/10.5281/zenodo.10869033
 
 unzip and untar:
 <pre>
->tar xvzf ntroot_supplementary_zenodo.tar.gz
+tar xvzf ntroot_supplementary_zenodo.tar.gz
 </pre>
 
 access the files:
 <pre>
->cd ./ntroot_supplementary_zenodo/data
->ls
+cd ./ntroot_supplementary_zenodo/data
+ls
+
 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
 GRCh38.fa.gz
 readme
