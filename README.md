@@ -88,7 +88,7 @@ Using the 1kGP integrated variant call set.
 
 Download this archive:
 <pre>
-wget https://zenodo.org/records/10971724/files/ntroot_supplementary_zenodo.tar.gz
+wget https://zenodo.org/records/10976332/files/ntroot_supplementary_zenodo.tar.gz
 </pre>
   
 from:
