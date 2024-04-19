@@ -85,30 +85,27 @@ while(<IN>){
 	if(/_AF/){
 		my $wn = int($a[1] / $dw);
 		$xr++;
-
-                my @alleles = split(/\^/,$a[7]);
-
-                #21      5097811 .       G       A       .       PASS    AD=11^AC=115;AN=5096;DP=12758;AF=0.02;EAS_AF=0.03;EUR_AF=0.01;AFR_AF=0.03;AMR_AF=0.03;SAS_AF=0.03;VT=SNP;NS=2548        GT      1/1
-
-                foreach my $allele(@alleles){
-
-			my @b=split(/\;/,$allele);
-
-			foreach my $el(@b){
-				my @d=split(/\=/,$el);
-				if($d[0]=~/(\S+)\_AF/){
+#21      5104045 .       T       C       .       PASS    AD=55,55;AC=308;AN=5096;DP=11592;AF=0.06;EAS_AF=0.04;EUR_AF=0.03;AFR_AF=0.1;AMR_AF=0.04;SAS_AF=0.07;VT=SNP;NS=2548      GT      0/1
+#21      5216587 .       G       A,C     .       PASS    AD=55,55;AC=442,442;AN=5096,5096;DP=73047,73047;AF=0.09,0.1;EAS_AF=0.08,0.1;EUR_AF=0.11,0.1;AFR_AF=0.07,0.1;AMR_AF=0.13,0.1;SAS_AF=0.06,0.1;VT=SNP,SNP;NS=2548,2548     GT      1/2
+		my @b=split(/\;/,$a[7]);
+		foreach my $el(@b){
+			my @d=split(/\=/,$el);
+			my @values = split(/\,/, $d[1]);
+			if($d[0]=~/(\S+)\_AF/){ # Iterates over each subpopulation
+				foreach my $popfreq(@values){
+					if ($popfreq eq "NA") { next; };
 					my $pop=$1;
 					if (! defined $populations->{$pop}) {
 						$populations->{$pop} = 1;
 					}
-					$s->{$d[0]}{'sum'}+=$d[1];
+					$s->{$d[0]}{'sum'}+=$popfreq;
 
 					#chr  winnum   pop
-					$z->{$a[0]}{$wn}{$pop}{'sum'}+=$d[1];
+					$z->{$a[0]}{$wn}{$pop}{'sum'}+=$popfreq;
 					$y->{$a[0]}{$wn}{'ct'}++;
 
 
-					if($d[1]){
+					if($popfreq){
 						$s->{$d[0]}{'ct'}++;
 						$z->{$a[0]}{$wn}{$pop}{'nzct'}++;
 						if($a[1]>$max){
@@ -116,13 +113,14 @@ while(<IN>){
 							$maxpop=$pop;
 						}
 					} else{
-						$d[1]=1;
+						$popfreq=1;
 					}
-				}
+				}	
 			}
-   		}
+		}
 	}
 }
+
 ###calculate metric per tile
 my $top;
 my $total;
