@@ -82,6 +82,10 @@ while(<IN>){
 	my $max;
 	my $maxpop;
 
+	if (/^#/) {
+		next;
+	}
+
 	if(/_AF/){
 		my $wn = int($a[1] / $dw);
 		$xr++;
