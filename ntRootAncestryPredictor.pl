@@ -98,22 +98,22 @@ while(<IN>){
 				my @d=split(/\=/,$el);
 				if($d[0]=~/(\S+)\_AF/){
 					my $pop=$1;
-					my @alleles = split(/,/,$d[1]);
-					foreach my $allele(@alleles){
-						if ($allele !~ /\d+/) {
+					my @AFalleles = split(/,/,$d[1]);
+					foreach my $afallele(@AFalleles){
+						if ($afallele !~ /\d+/) {
 							next;
 						}
 						if (! defined $populations->{$pop}) {
 							$populations->{$pop} = 1;
 						}
-						$s->{$d[0]}{'sum'}+=$allele;
+						$s->{$d[0]}{'sum'}+=$afallele;
 
 						#chr  winnum   pop
-						$z->{$a[0]}{$wn}{$pop}{'sum'}+=$allele;
+						$z->{$a[0]}{$wn}{$pop}{'sum'}+=$afallele;
 						$y->{$a[0]}{$wn}{'ct'}++;
 
 
-						if($allele){
+						if($afallele){
 							$s->{$d[0]}{'ct'}++;
 							$z->{$a[0]}{$wn}{$pop}{'nzct'}++;
 							if($a[1]>$max){
@@ -121,7 +121,7 @@ while(<IN>){
 								$maxpop=$pop;
 							}
 						} else{
-							$allele=1;
+							$afallele=1;
 						}
 					}
 				}
