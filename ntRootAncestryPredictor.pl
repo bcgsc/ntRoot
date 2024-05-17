@@ -98,25 +98,31 @@ while(<IN>){
 				my @d=split(/\=/,$el);
 				if($d[0]=~/(\S+)\_AF/){
 					my $pop=$1;
-					if (! defined $populations->{$pop}) {
-						$populations->{$pop} = 1;
-					}
-					$s->{$d[0]}{'sum'}+=$d[1];
-
-					#chr  winnum   pop
-					$z->{$a[0]}{$wn}{$pop}{'sum'}+=$d[1];
-					$y->{$a[0]}{$wn}{'ct'}++;
-
-
-					if($d[1]){
-						$s->{$d[0]}{'ct'}++;
-						$z->{$a[0]}{$wn}{$pop}{'nzct'}++;
-						if($a[1]>$max){
-							$max=$a[1];
-							$maxpop=$pop;
+					my @AFalleles = split(/,/,$d[1]);
+					foreach my $afallele(@AFalleles){
+						if ($afallele !~ /\d+/) {
+							next;
 						}
-					} else{
-						$d[1]=1;
+						if (! defined $populations->{$pop}) {
+							$populations->{$pop} = 1;
+						}
+						$s->{$d[0]}{'sum'}+=$afallele;
+
+						#chr  winnum   pop
+						$z->{$a[0]}{$wn}{$pop}{'sum'}+=$afallele;
+						$y->{$a[0]}{$wn}{'ct'}++;
+
+
+						if($afallele){
+							$s->{$d[0]}{'ct'}++;
+							$z->{$a[0]}{$wn}{$pop}{'nzct'}++;
+							if($a[1]>$max){
+								$max=$a[1];
+								$maxpop=$pop;
+							}
+						} else{
+							$afallele=1;
+						}
 					}
 				}
 			}
