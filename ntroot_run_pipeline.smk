@@ -33,7 +33,7 @@ tile_size = config["tile_size"] if "tile_size" in config else 5000000
 
 # Third-party VCF parameters
 input_vcf = config["input_vcf"] if "input_vcf" in config else None
-input_vcf_basename = os.path.basename(os.path.realpath(input_vcf))
+input_vcf_basename = os.path.basename(os.path.realpath(input_vcf)) if input_vcf else "None"
 
 # time command
 mac_time_command = "command time -l -o"
@@ -129,7 +129,7 @@ rule ancestry_prediction_lai:
         "{params.benchmark} ntRootAncestryPredictor.pl -f {input.vcf} -t {params.tile_size} -v {params.verbosity} -r 1 -i {input.ref_fai}"
 
 rule sort_vcf_input:
-    input: vcf = input_vcf
+    input: vcf = f"{input_vcf}"
     output: vcf_sorted = temp(f"{input_vcf_basename}_sorted.vcf")
     params:
         benchmark = f"{time_command} sort_vcf_{input_vcf_basename}.time"
@@ -158,7 +158,7 @@ rule bedtools_intersect:
 
 rule cross_reference_vcf:
     input: 
-        vcf = input_vcf,
+        vcf = f"{input_vcf}",
         ref_vars = l,
         bedtools = f"{input_vcf_basename}.bedtools-intersect.bed"
     output: f"{input_vcf_basename}.cross-ref.vcf"

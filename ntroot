@@ -125,7 +125,7 @@ def main():
     intro_string.extend([f"\t--reference {args.reference}",
                         f"\t-t {args.t}"])
 
-    if args.genome or args.draft:
+    if args.genome or args.reads:
         intro_string.extend([f"\t-k {args.k}",
                              f"\t-z {args.z}",
                              f"\t-j {args.j}",
