@@ -10,7 +10,7 @@ import gzip
 class Vcf:
     "Represents a VCF entry"
     def __init__(self, chr, position, idenfitier, ref, alt, qual, filter, info, format=None,
-                 integration=None, parse_info=True):
+                 integration=None, parse_info=True, strip_info=True):
         self.chr = chr
         self.position = int(position)
         self.idenfitier = idenfitier
@@ -23,10 +23,10 @@ class Vcf:
             self.info_alts = self.parse_info(info)
         if "VCF_L" in info: # Accounting for placeholders for INFO line in the temp VCF
             self.info_str = info.split("VCF_L")[0].strip(";")
-        elif not parse_info:
+        elif not parse_info and not strip_info:
             self.info_str = info
         else:
-            self.info_str = None
+            self.info_str = ""
         self.format = format
         self.integration = integration
 
@@ -181,7 +181,7 @@ def print_vcf_line(ntedit_vcf, l_vcf, outfile):
                     f"{ntedit_vcf.integration}")
             outfile.write(f"{out_str}\n")
 
-def parse_bedtools_loj(infile, outfile):
+def parse_bedtools_loj(infile, outfile, strip_info=False):
     "Parse the LOJ from bedtools to ntEdit-formatted VCF"
     ntedit_vcf = None
     l_vcf = None
@@ -189,7 +189,7 @@ def parse_bedtools_loj(infile, outfile):
     with open(infile, 'r', encoding="utf8") as fin:
         for line in fin:
             line = line.strip().split("\t")
-            ntedit_vcf_new = Vcf(*line[:10], parse_info=False)
+            ntedit_vcf_new = Vcf(*line[:10], parse_info=False, strip_info=strip_info)
             l_vcf_new = Vcf(*line[10:18])
             if ntedit_vcf is not None and ntedit_vcf.position == ntedit_vcf_new.position \
                 and ntedit_vcf.chr == ntedit_vcf_new.chr:
@@ -309,6 +309,9 @@ def main():
     parser.add_argument("--vcf_l", help="-l VCF file (for header)", required=True, type=str)
     parser.add_argument("-p", "--prefix", help="Prefix for out files", required=False,
                         default="ntedit_snv_vcf", type=str)
+    parser.add_argument("--strip", help="Strip INFO field from --vcf. Use when have ntEdit VCF with already "
+                        "cross-referenced ancestry",
+                        action="store_true")
 
     args = parser.parse_args()
 
@@ -319,7 +322,7 @@ def main():
         write_header(args.vcf_l, fout, info_only=True)
         fout.write(f"{header}\n")
 
-        parse_bedtools_loj(args.bedtools, fout)
+        parse_bedtools_loj(args.bedtools, fout, args.strip)
 
     refold_variants(f"{args.prefix}.tmp.vcf", args.prefix)
 

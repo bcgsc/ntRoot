@@ -34,6 +34,7 @@ tile_size = config["tile_size"] if "tile_size" in config else 5000000
 # Third-party VCF parameters
 input_vcf = config["input_vcf"] if "input_vcf" in config else None
 input_vcf_basename = os.path.basename(os.path.realpath(input_vcf)) if input_vcf else "None"
+strip_info = config["strip_info"] if "strip_info" in config else None
 
 # time command
 mac_time_command = "command time -l -o"
@@ -165,6 +166,7 @@ rule cross_reference_vcf:
     output: f"{input_vcf_basename}.cross-ref.vcf"
     params:
         benchmark = f"{time_command} cross_reference_vcf_{input_vcf_basename}.time",
-        prefix=f"{input_vcf_basename}.cross-ref"
+        prefix=f"{input_vcf_basename}.cross-ref",
+        strip = "--strip" if strip_info else ""
     shell: 
-        "{params.benchmark} ntroot_cross_reference_vcf.py -b {input.bedtools} --vcf {input.vcf} --vcf_l {input.ref_vars} -p {params.prefix}"
+        "{params.benchmark} ntroot_cross_reference_vcf.py -b {input.bedtools} --vcf {input.vcf} --vcf_l {input.ref_vars} -p {params.prefix} {params.strip}"
