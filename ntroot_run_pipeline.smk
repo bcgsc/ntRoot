@@ -132,9 +132,10 @@ rule sort_vcf_input:
     input: vcf = f"{input_vcf}"
     output: vcf_sorted = temp(f"{input_vcf_basename}_sorted.vcf")
     params:
-        benchmark = f"{time_command} sort_vcf_{input_vcf_basename}.time"
+        benchmark = f"{time_command} sort_vcf_{input_vcf_basename}.time",
+        cat_cmd = "gunzip -c" if f"{input_vcf}".endswith(".gz") else "cat"
     shell:
-        """{params.benchmark} sh -c '(echo "##fileformat=VCFv4.2" ; cat {input.vcf} |grep -v "#" |sort -k1,1 -k2,2n) > {output.vcf_sorted}'"""
+        """{params.benchmark} sh -c '(echo "##fileformat=VCFv4.2" ; {params.cat_cmd} {input.vcf} |grep -v "#" |sort -k1,1 -k2,2n) > {output.vcf_sorted}'"""
 
 rule sort_vcf_l:
     input: vcf = l
