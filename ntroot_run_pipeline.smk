@@ -145,7 +145,7 @@ rule sort_vcf_l:
         benchmark = f"{time_command} sort_vcf_l.time",
         cat_cmd = "gunzip -c" if f"{l}".endswith(".gz") else "cat"
     shell:
-        """{params.benchmark} sh -c '(echo "##fileformat=VCFv4.2" ; {params.cat_cmd} {input.vcf} |grep -v "#" |sort -k1,1 -k2,2n) > {output}'"""
+        """{params.benchmark} sh -c '(echo "##fileformat=VCFv4.2" ; {params.cat_cmd} {input.vcf} |perl -ne 'chomp; @a=split("\\t"); if (/^#/ || $a[4]!~/\<\S+\>/){{print "$_\\n";}}' |grep -v "#" |sort -k1,1 -k2,2n) > {output}'"""
 
 rule bedtools_intersect:
     input:         
