@@ -35,7 +35,7 @@ fi
 echo "Running ntRoot input VCF demo..."
 
 ntroot --reference chr21.fa --custom_vcf HG002.chr21.vcf.gz -l pop-spec-snp_chr21.vcf.gz
-prediction=$(cat HG002.chr21.vcf.gzancestry-predictions_tile5000000.tsv | awk '{print $1}' |head -n 2 |tail -n 1)
+prediction=$(cat HG002.chr21.vcf.gz.cross-ref.vcf_ancestry-predictions_tile5000000.tsv | awk '{print $1}' |head -n 2 |tail -n 1)
 if [ ${prediction} == "EUR" ]; then
 	echo "ntRoot input VCF test successful!"
 else 
