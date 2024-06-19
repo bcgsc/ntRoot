@@ -37,7 +37,7 @@ def set_up_parser():
 
     parser.add_argument("-k",
                         help="k-mer size",
-                        required=True, type=int)
+                        required=False, type=int)
     parser.add_argument("--tile", help="Tile size for ancestry fraction inference (bp) [default=5000000]",
                         default=5000000, type=int)
     parser.add_argument("--lai", help="Output ancestry predictons per tile in a separate output file",
@@ -54,6 +54,12 @@ def set_up_parser():
                         help="Ratio of number of k-mers in the k subset that should be present to accept "
                             "an edit (higher=stringent) "
                             "[default=0.55]", default=0.55, type=float)
+    parser.add_argument("--custom_vcf", help="Input VCF for computing ancestry. "
+                                        "When specified, ntRoot will skip the ntEdit step, and "
+                                        "predict ancestry from the provided VCF.",
+                        type=str)
+    parser.add_argument("--strip_info", help="When using --custom_vcf, strip the existing INFO field from the input VCF.",
+                        action="store_true")
     parser.add_argument("-v", "--verbose",
                         help="Verbose mode [default=False]", action="store_true", default=False)
     parser.add_argument("-V", "--version", action="version", version=NTROOT_VERSION)
@@ -71,13 +77,17 @@ def main():
 
     args = parser.parse_args()
 
-    if (args.reads and args.genome) or (not args.reads and not args.genome):
+    if ((args.reads and args.genome) or (not args.reads and not args.genome)) and not args.custom_vcf:
         raise argparse.ArgumentTypeError("Please specify --reads OR --genome")
 
     if not args.draft and not args.reference:
         raise argparse.ArgumentTypeError("Please specify the reference genome with --reference")
     if args.draft:
         args.reference = args.draft
+
+    if args.reads or args.genome:
+        if not args.k:
+            raise argparse.ArgumentTypeError("Please specify the k-mer size with -k")
 
     base_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -94,26 +104,38 @@ def main():
             smk_rule = "ntroot_genome_lai"
         else:
             smk_rule = "ntroot_genome"
+    if args.custom_vcf:
+        if args.lai:
+            smk_rule = "ntroot_input_vcf_lai"
+        else:
+            smk_rule = "ntroot_input_vcf"
 
     command = f"snakemake -s {base_dir}/ntroot_run_pipeline.smk {smk_rule} --nolock -p --cores {args.t} " \
-            f"--config reference={args.reference} k={args.k} t={args.t} " \
-            f"z={args.z} tile_size={args.tile} " \
-            f"j={args.j} Y={args.Y} "
+            f"--config reference={args.reference} t={args.t} " \
+            f"tile_size={args.tile} "
 
     if args.genome:
         intro_string.append(f"\t--genome {args.genome}")
-        command += f"genomes={args.genome} "
+        command += f"genomes={args.genome}"
+    elif args.custom_vcf:
+        intro_string.append(f"\t--custom_vcf {args.custom_vcf}")
+        command += f" input_vcf={args.custom_vcf}"
+        if args.strip_info:
+            intro_string.append("\t--strip_info")
+            command += " strip_info=True"
     else:
         intro_string.append(f"\t--reads {args.reads}")
         command += f"reads={args.reads}"
 
-    intro_string.extend([f"\t-k {args.k}",
-                        f"\t--reference {args.reference}",
-                        f"\t-t {args.t}",
-                        f"\t-z {args.z}",
-                        f"\t-j {args.j}",
-                        f"\t-Y {args.Y}"
-                    ])
+    intro_string.extend([f"\t--reference {args.reference}",
+                        f"\t-t {args.t}"])
+
+    if args.genome or args.reads:
+        intro_string.extend([f"\t-k {args.k}",
+                             f"\t-z {args.z}",
+                             f"\t-j {args.j}",
+                             f"\t-Y {args.Y}"])
+        command += f" k={args.k} z={args.z} j={args.j} Y={args.Y}"
 
     if args.lai:
         intro_string.append("\t--lai")

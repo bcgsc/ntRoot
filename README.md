@@ -49,12 +49,13 @@ No compilation is required for ntRoot (only the dependencies), so simply add the
 - [ntEdit 2.0.2+](https://github.com/bcgsc/ntEdit)
 - [snakemake](https://snakemake.readthedocs.io/en/stable/)
 - [samtools](https://www.htslib.org/)
-
+- [bedtools](https://bedtools.readthedocs.io/en/latest/)
 
 
 ## Usage <a name=usage></a>
 ```
-usage: ntroot [-h] -r REFERENCE [--reads READS] [--genome GENOME [GENOME ...]] -l L -k K [--tile TILE] [--lai] [-t T] [-z Z] [-j J] [-Y Y] [-v] [-V] [-n] [-f]
+usage: ntroot [-h] [-r REFERENCE] [--reads READS] [--genome GENOME [GENOME ...]] -l L [-k K] [--tile TILE] [--lai] [-t T] [-z Z] [-j J] [-Y Y] [--custom_vcf CUSTOM_VCF]
+              [--strip_info] [-v] [-V] [-n] [-f]
 
 ntRoot: Ancestry inference from genomic data
 
@@ -73,6 +74,9 @@ optional arguments:
   -z Z                  Minimum contig length [default=100]
   -j J                  controls size of k-mer subset. When checking subset of k-mers, check every jth k-mer [default=3]
   -Y Y                  Ratio of number of k-mers in the k subset that should be present to accept an edit (higher=stringent) [default=0.55]
+  --custom_vcf CUSTOM_VCF
+                        Input VCF for computing ancestry. When specified, ntRoot will skip the ntEdit step, and predict ancestry from the provided VCF.
+  --strip_info          When using --custom_vcf, strip the existing INFO field from the input VCF.
   -v, --verbose         Verbose mode [default=False]
   -V, --version         show program's version number and exit
   -n, --dry-run         Print out the commands that will be executed
@@ -122,6 +126,10 @@ Example command:
 ntroot -k 55 --reference GRCh38.fa.gz --reads ERR3242308_ -t 48 -Y 0.55 -l 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
 </pre>
 
+If you would like to infer ancestry from a pre-existing VCF file:
+<pre>
+ntroot -r GRCh38.fa.gz --custom_vcf third_party.vcf -l 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
+</pre>
 
 Note: For more advanced users, and for ancestry predictions on organisms other than human, please contact us.
 
