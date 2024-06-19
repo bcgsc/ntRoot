@@ -75,7 +75,7 @@ optional arguments:
   -j J                  controls size of k-mer subset. When checking subset of k-mers, check every jth k-mer [default=3]
   -Y Y                  Ratio of number of k-mers in the k subset that should be present to accept an edit (higher=stringent) [default=0.55]
   --custom_vcf CUSTOM_VCF
-                        Pre-computed VCF with SNVs from a third-party tool. When specified, ntRoot will skip the ntEdit step, and predict ancestry from the provided VCF.
+                        Input VCF for computing ancestry. When specified, ntRoot will skip the ntEdit step, and predict ancestry from the provided VCF.
   --strip_info          When using --custom_vcf, strip the existing INFO field from the input vcf.
   -v, --verbose         Verbose mode [default=False]
   -V, --version         show program's version number and exit

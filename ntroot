@@ -54,7 +54,7 @@ def set_up_parser():
                         help="Ratio of number of k-mers in the k subset that should be present to accept "
                             "an edit (higher=stringent) "
                             "[default=0.55]", default=0.55, type=float)
-    parser.add_argument("--custom_vcf", help="Pre-computed VCF with SNVs from a third-party tool. "
+    parser.add_argument("--custom_vcf", help="Input VCF for computing ancestry. "
                                         "When specified, ntRoot will skip the ntEdit step, and "
                                         "predict ancestry from the provided VCF.",
                         type=str)
