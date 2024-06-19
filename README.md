@@ -76,7 +76,7 @@ optional arguments:
   -Y Y                  Ratio of number of k-mers in the k subset that should be present to accept an edit (higher=stringent) [default=0.55]
   --custom_vcf CUSTOM_VCF
                         Input VCF for computing ancestry. When specified, ntRoot will skip the ntEdit step, and predict ancestry from the provided VCF.
-  --strip_info          When using --custom_vcf, strip the existing INFO field from the input vcf.
+  --strip_info          When using --custom_vcf, strip the existing INFO field from the input VCF.
   -v, --verbose         Verbose mode [default=False]
   -V, --version         show program's version number and exit
   -n, --dry-run         Print out the commands that will be executed

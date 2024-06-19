@@ -58,7 +58,7 @@ def set_up_parser():
                                         "When specified, ntRoot will skip the ntEdit step, and "
                                         "predict ancestry from the provided VCF.",
                         type=str)
-    parser.add_argument("--strip_info", help="When using --custom_vcf, strip the existing INFO field from the input vcf.",
+    parser.add_argument("--strip_info", help="When using --custom_vcf, strip the existing INFO field from the input VCF.",
                         action="store_true")
     parser.add_argument("-v", "--verbose",
                         help="Verbose mode [default=False]", action="store_true", default=False)
