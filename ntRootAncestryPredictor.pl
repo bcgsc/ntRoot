@@ -234,6 +234,11 @@ print "\nAbbreviations:\n\tAF: Allele Frequency";
 if ($verbose) {
 	print "\n\tnz: Non-zero\n";
 }
-print "\n\nAncestry predictions available in:\n$out\n\n";
+print "\n\nAncestry predictions available in:\n$out\n";
+
+if ($tile_resolution) {
+	print $f . "_ancestry-predictions-tile-resolution_tile$dw.tsv\n";
+}
+print "\n";
 
 exit(0);

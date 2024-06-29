@@ -100,8 +100,11 @@ rule samtools_faidx:
     output: out_fai = f"{draft_base}.fai"
     params:
         benchmark = f"{time_command} samtools_faidx_{draft_base}.time"
-    shell:
-        "{params.benchmark} samtools faidx -o {output.out_fai} {input.reference}"
+    run:
+        if input.reference.endswith(".gz"):
+            shell("{params.benchmark} gunzip -c {input.reference} |samtools faidx -o {output.out_fai} -")
+        else:
+            shell("{params.benchmark} samtools faidx -o {output.out_fai} {input.reference}")
 
 rule ancestry_prediction:
     input: 
