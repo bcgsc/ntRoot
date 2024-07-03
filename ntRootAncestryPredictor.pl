@@ -159,6 +159,9 @@ foreach my $el(sort {$a<=>$b} keys %$z){
 			if($metric>$winmax){
 				$winmax = $metric;
 				$winpop = $pp;
+			}elsif($metric==$winmax){ ###do not assign tiles if ambiguous, ND=Not Determined
+                                $winmax = $metric;
+                                $winpop = "ND";
 			}
 		}
 		$top->{$winpop} += $dw;
