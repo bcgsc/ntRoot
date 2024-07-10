@@ -29,6 +29,7 @@ my $dw = 5000000;
 my $verbose = 0;
 my $tile_resolution = 0;
 my $fai = "";
+my $ambiguous_category = "Unknown";
 
 getopts('f:t:v:r:i:');
 
@@ -159,9 +160,9 @@ foreach my $el(sort {$a<=>$b} keys %$z){
 			if($metric>$winmax){
 				$winmax = $metric;
 				$winpop = $pp;
-			}elsif($metric==$winmax){ ###do not assign tiles if ambiguous, ND=Not Determined
-                                $winmax = $metric;
-                                $winpop = "ND";
+			}elsif($metric==$winmax){ ###do not assign tiles to a population if ambiguous
+				$winmax = $metric;
+				$winpop = $ambiguous_category;
 			}
 		}
 		$top->{$winpop} += $dw;
@@ -220,12 +221,20 @@ foreach my $population(sort {$top->{$b}<=>$top->{$a}} keys %$top){
 	$rank++;
 	my $k = $population . "_AF";
 	my $percent = $top->{$population}/$total *100;
-	printf OUT "$population\t%.2f%%\t%.4f\t$xr\t$s->{$k}{'ct'}", ($percent, $s->{$k}{'prob'});
+	if ($population eq $ambiguous_category) {
+		printf OUT "$population\t%.2f%%\tN/A\t$xr\tN/A", $percent;
+	} else {
+		printf OUT "$population\t%.2f%%\t%.4f\t$xr\t$s->{$k}{'ct'}", ($percent, $s->{$k}{'prob'});
+	}
 	if ($verbose) {
-		my $p = $s->{$k}{'sum'}/$xr;
-		my $c=$s->{$k}{'sum'}/$s->{$k}{'ct'};
-		my $nzr=$s->{$k}{'ct'}/$xr;
-		printf OUT "\t%.2f\t%.4f\t%.4f\t%.4f\t%.2f\n", ($s->{$k}{'sum'}, $p, $c, $nzr, $s->{$k}{'fract'});
+		if ($population eq $ambiguous_category) {
+			printf OUT "\tN/A\tN/A\tN/A\tN/A\tN/A\n";
+		} else {
+			my $p = $s->{$k}{'sum'}/$xr;
+			my $c=$s->{$k}{'sum'}/$s->{$k}{'ct'};
+			my $nzr=$s->{$k}{'ct'}/$xr;
+			printf OUT "\t%.2f\t%.4f\t%.4f\t%.4f\t%.2f\n", ($s->{$k}{'sum'}, $p, $c, $nzr, $s->{$k}{'fract'});
+		}
 	} else {
 		printf OUT "\n";
 	}
