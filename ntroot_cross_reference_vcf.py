@@ -181,16 +181,23 @@ def print_vcf_line(ntedit_vcf, l_vcf, outfile):
                     f"{ntedit_vcf.integration}")
             outfile.write(f"{out_str}\n")
 
-def parse_bedtools_loj(infile, outfile, strip_info=False):
+def parse_bedtools_loj(infile, outfile, header, strip_info=False):
     "Parse the LOJ from bedtools to ntEdit-formatted VCF"
     ntedit_vcf = None
     l_vcf = None
 
+    num_col_vcf = len(header.split("\t")) # Standard single-sample VCF can have 8-10 columns
+    if num_col_vcf > 10 or num_col_vcf < 8:
+        message = (f"Expected 8-10 columns in VCF, got {num_col_vcf}. "
+                   "Please ensure VCF is single-sample, and following "
+                   "standard VCF specifications")
+        raise ValueError(message)
+
     with open(infile, 'r', encoding="utf8") as fin:
         for line in fin:
             line = line.strip().split("\t")
-            ntedit_vcf_new = Vcf(*line[:10], parse_info=False, strip_info=strip_info)
-            l_vcf_new = Vcf(*line[10:18])
+            ntedit_vcf_new = Vcf(*line[:num_col_vcf], parse_info=False, strip_info=strip_info)
+            l_vcf_new = Vcf(*line[num_col_vcf:num_col_vcf+8]) # 8 columns in the -l VCF provided by ntRoot
             if ntedit_vcf is not None and ntedit_vcf.position == ntedit_vcf_new.position \
                 and ntedit_vcf.chr == ntedit_vcf_new.chr:
                 # This is the same position as before, tally extra INFO from l_vcf.
@@ -322,7 +329,7 @@ def main():
         write_header(args.vcf_l, fout, info_only=True)
         fout.write(f"{header}\n")
 
-        parse_bedtools_loj(args.bedtools, fout, args.strip)
+        parse_bedtools_loj(args.bedtools, fout, header, args.strip)
 
     refold_variants(f"{args.prefix}.tmp.vcf", args.prefix)
 
