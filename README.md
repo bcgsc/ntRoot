@@ -134,6 +134,10 @@ ntroot -r GRCh38.fa.gz --custom_vcf third_party.vcf -l 1000GP_integrated_snv_v2a
 Note: For more advanced users, and for ancestry predictions on organisms other than human, please contact us.
 
 
+![Phylogenetic analysis of ntRoot ancestry-discriminant SNVs from a 1kGP sample set (n=153)](https://github.com/bcgsc/ntRoot/blob/main/ntroot_family_siblings.png)
+Neighbor joining phylogenetic analysis of ntRoot ancestry-discriminant SNVs for 153, 1000 Genomes Project (1kGP) individuals from 5 global regions (EAS=East Asia, EUR=Europe, SAS=South Asia, AFR=Africa, AMR=America). Branches are colored by the ground truth labels from 1kGP, with the pie charts as each leaf indicating the ntRoot local ancestry inference (LAI) estimated composition for each individual. Highlighted sections show family trios (Mother-Father-Child), with a more complexed family structure shown for 3 EAS siblings (Sister with 2 brothers). The 1kGP accessions are shown on the outer ring with the 1kGP sub-population labels on the inner ring. This figure is for illustrative purposes, to show possible applications of ntRoot, and illustrate its robust LAI.
+
+
 ## Demo <a name=demo></a>
 To test your installation:
 ```
