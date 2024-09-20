@@ -11,22 +11,22 @@ onsuccess:
 reference=config["reference"]
 draft_base = os.path.basename(os.path.realpath(reference))
 reads_prefix=config["reads"] if "reads" in config else ""
-k=config["k"] if "k" in config else None
+k=config["kmer"] if "kmer" in config else None
 
 genomes = config["genomes"] if "genomes" in config else ""
 genome_prefix = ".".join([os.path.basename(os.path.realpath(genome)).removesuffix(".fa").removesuffix(".fasta").removesuffix(".fna") for genome in genomes])
 
 # Common parameters
-t = config["t"] if "t" in config else 4
-b = config["b"] + "_" if "b" in config and config["b"] != "" else ""
+t = config["threads"] if "threads" in config else 4
+b = config["b_prefix"] + "_" if "b_prefix" in config and config["b_prefix"] != "" else ""
 
 
 # ntEdit parameters
-z = config["z"] if "z" in config else 100
-v = config["v"] if "v" in config else 0
-j = config["j"] if "j" in config else 3
-Y = config["Y"] if "Y" in config else 0.55
-l = config["l"] if "l" in config else ""
+z = config["z_param"] if "z_param" in config else 100
+v = config["verbose"] if "verbose" in config else 0
+j = config["j_param"] if "j_param" in config else 3
+Y = config["Y_param"] if "Y_param" in config else 0.55
+l = config["l_vcf"] if "l_vcf" in config else ""
 
 # Ancestry inference parameters
 tile_size = config["tile_size"] if "tile_size" in config else 5000000

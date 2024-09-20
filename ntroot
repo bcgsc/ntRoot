@@ -111,7 +111,7 @@ def main():
             smk_rule = "ntroot_input_vcf"
 
     command = f"snakemake -s {base_dir}/ntroot_run_pipeline.smk {smk_rule} --nolock -p --cores {args.t} " \
-            f"--config reference={args.reference} t={args.t} " \
+            f"--config reference={args.reference} threads={args.t} " \
             f"tile_size={args.tile} "
 
     if args.genome:
@@ -135,21 +135,21 @@ def main():
                              f"\t-z {args.z}",
                              f"\t-j {args.j}",
                              f"\t-Y {args.Y}"])
-        command += f" k={args.k} z={args.z} j={args.j} Y={args.Y}"
+        command += f" kmer={args.k} z_param={args.z} j_param={args.j} Y_param={args.Y}"
 
     if args.lai:
         intro_string.append("\t--lai")
 
     if args.verbose:
         intro_string.append("\t-v")
-        command += " v=1"
+        command += " verbose=1"
     else:
-        command += " v=0"
+        command += " verbose=0"
 
     if not os.path.isfile(args.l):
         raise FileNotFoundError(f"VCF file {args.l} not found")
     intro_string.append(f"\t-l {args.l}")
-    command += f" l={args.l}"
+    command += f" l_vcf={args.l}"
 
     print("\n".join(intro_string), flush=True)
 

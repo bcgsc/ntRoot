@@ -18,14 +18,25 @@ jobs:
     displayName: Create Anaconda environment
   - script: |
       source activate ntroot_CI
-      conda install --yes --name ntroot_CI -c conda-forge -c bioconda python=3.9 mamba
+      conda install --yes --name ntroot_CI -c conda-forge -c bioconda python mamba
       mamba install --yes -c conda-forge -c bioconda meson ninja snakemake perl 'ntedit>=2.0.1' samtools bedtools
+      mamba install --yes -c conda-forge -c bioconda libcxx llvm meson ninja btllib zlib boost cmake compilers 
     displayName: Install Conda packages
+
+  - script: |
+      source activate ntroot_CI
+      git clone https://github.com/bcgsc/ntEdit.git
+      cd ntEdit
+      meson setup build --prefix=$(pwd)/ntedit_build
+      cd build && ninja install
+    displayName: Build ntEdit (until 2.0.3 updated in conda)
   
   - script: |
       source activate ntroot_CI
+      export PATH=$(pwd)/ntEdit/ntedit_build/bin:$PATH
       export PATH=$(pwd):$PATH
       which ntroot
+      which ntedit
       cd demo
       ./run_ntroot_demo.sh
     displayName: Run ntRoot test
@@ -47,14 +58,25 @@ jobs:
     displayName: Create Anaconda environment
   - script: |
       source activate ntroot_CI
-      conda install --yes --name ntroot_CI -c conda-forge -c bioconda python=3.9 mamba
+      conda install --yes --name ntroot_CI -c conda-forge -c bioconda python mamba
       mamba install --yes -c conda-forge -c bioconda snakemake perl 'ntedit>=2.0.1' samtools bedtools
+      mamba install --yes -c conda-forge -c bioconda libcxx llvm meson ninja btllib zlib boost cmake compilers 
     displayName: Install Conda packages
+
+  - script: |
+      source activate ntroot_CI
+      git clone https://github.com/bcgsc/ntEdit.git
+      cd ntEdit
+      meson setup build --prefix=$(pwd)/ntedit_build
+      cd build && ninja install
+    displayName: Build ntEdit (until 2.0.3 updated in conda)
   
   - script: |
       source activate ntroot_CI
+      export PATH=$(pwd)/ntEdit/ntedit_build/bin:$PATH
       export PATH=$(pwd):$PATH
       which ntroot
+      which ntedit
       cd demo
       ./run_ntroot_demo.sh
     displayName: Run ntRoot test
