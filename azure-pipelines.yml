@@ -18,7 +18,7 @@ jobs:
     displayName: Create Anaconda environment
   - script: |
       source activate ntroot_CI
-      conda install --yes --name ntroot_CI -c conda-forge -c bioconda python=3.9 mamba
+      conda install --yes --name ntroot_CI -c conda-forge -c bioconda python mamba
       mamba install --yes -c conda-forge -c bioconda meson ninja snakemake perl 'ntedit>=2.0.1' samtools bedtools
     displayName: Install Conda packages
   
@@ -47,7 +47,7 @@ jobs:
     displayName: Create Anaconda environment
   - script: |
       source activate ntroot_CI
-      conda install --yes --name ntroot_CI -c conda-forge -c bioconda python=3.9 mamba
+      conda install --yes --name ntroot_CI -c conda-forge -c bioconda python mamba
       mamba install --yes -c conda-forge -c bioconda snakemake perl 'ntedit>=2.0.1' samtools bedtools
     displayName: Install Conda packages
   
