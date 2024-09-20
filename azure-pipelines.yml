@@ -24,6 +24,7 @@ jobs:
     displayName: Install Conda packages
 
   - script: |
+      source activate ntroot_CI
       git clone https://github.com/bcgsc/ntEdit.git
       cd ntEdit
       meson setup build --prefix=$(pwd)/ntedit_build
