@@ -73,8 +73,10 @@ jobs:
   
   - script: |
       source activate ntroot_CI
+      export PATH=$(pwd)/ntEdit/ntedit_build/bin:$PATH
       export PATH=$(pwd):$PATH
       which ntroot
+      which ntedit
       cd demo
       ./run_ntroot_demo.sh
     displayName: Run ntRoot test
