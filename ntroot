@@ -149,7 +149,7 @@ def main():
     if not os.path.isfile(args.l):
         raise FileNotFoundError(f"VCF file {args.l} not found")
     intro_string.append(f"\t-l {args.l}")
-    command += f" l_param={args.l}"
+    command += f" l_vcf={args.l}"
 
     print("\n".join(intro_string), flush=True)
 
