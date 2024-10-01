@@ -18,8 +18,9 @@ Ancestry inference from genomic data
 5. [Usage](#usage)
 6. [Human ancestry predictions](#data)
 7. [Demo](#demo)
-8. [Citing](#citing)
-9. [License](#license)
+8. [Documentation](#docs)	
+9. [Citing](#citing)
+10. [License](#license)
 
 ## Credit  <a name=credit></a>
 Written by René L Warren and Lauren Coombe
@@ -145,6 +146,16 @@ cd demo
 ./run_ntroot_demo.sh
 ```
 Ensure that the ntRoot installation is available on your PATH.
+
+
+## Documentation <a name=docs></a>
+
+Refer to the README.md file on how to install and run ntRoot.
+Our [preprint](https://www.biorxiv.org/content/10.1101/2024.03.26.586646v1) contains information about the software and its performance.
+![ntRoot PSB poster](https://github.com/bcgsc/ntRoot/ntRootPSB2025.png)
+This [PSB poster](https://doi.org/10.5281/zenodo.13844277) contains additional information, benchmarks and results.
+
+
 
 ## Citing <a name=citing></a>
 
