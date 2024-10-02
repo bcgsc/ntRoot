@@ -42,14 +42,23 @@ jobs:
     persistCredentials: true
     submodules: true
 
-  - script: echo "##vso[task.prependpath]$CONDA/bin"
-    displayName: Add conda to PATH
+  - script: |
+      mkdir -p ~/miniforge3
+      curl -L https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh  -o ~/miniforge3/miniforge.sh
+      bash ~/miniforge3/miniforge.sh -b -u -p ~/miniforge3
+      rm -rf  ~/miniforge3/miniforge.sh
+      ~/miniforge3/bin/conda init bash
+      ~/miniforge3/bin/conda init zsh
+      export CONDA=$(realpath ~/miniforge3/bin)
+      echo "##vso[task.prependpath]$CONDA"
+    displayName: Install conda
 
   - script: conda create --yes --quiet --name ntroot_CI
     displayName: Create Anaconda environment
+
   - script: |
       source activate ntroot_CI
-      conda install --yes --name ntroot_CI -c conda-forge -c bioconda python mamba
+      mamba install --yes -c conda-forge -c bioconda python
       mamba install --yes -c conda-forge -c bioconda snakemake perl 'ntedit>=2.0.1' samtools bedtools
       mamba install --yes -c conda-forge -c bioconda libcxx llvm meson ninja btllib zlib boost cmake compilers 
     displayName: Install Conda packages
