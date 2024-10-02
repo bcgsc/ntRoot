@@ -50,6 +50,7 @@ jobs:
       ~/miniforge3/bin/conda init bash
       ~/miniforge3/bin/conda init zsh
       export CONDA=$(realpath ~/miniforge3/bin)
+      conda update -n base -c conda-forge conda
       echo "##vso[task.prependpath]$CONDA"
     displayName: Install conda
 
