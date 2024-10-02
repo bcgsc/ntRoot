@@ -51,10 +51,11 @@ jobs:
       ~/miniforge3/bin/conda init zsh
       export CONDA=$(realpath ~/miniforge3/bin)
       echo "##vso[task.prependpath]$CONDA"
-      conda update -n base -c conda-forge conda
     displayName: Install conda
 
-  - script: conda create --yes --quiet --name ntroot_CI
+  - script: |
+      conda update -n base -c conda-forge conda
+      conda create --yes --quiet --name ntroot_CI
     displayName: Create Anaconda environment
   - script: |
       source activate ntroot_CI
