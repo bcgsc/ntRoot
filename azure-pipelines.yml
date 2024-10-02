@@ -53,11 +53,9 @@ jobs:
       echo "##vso[task.prependpath]$CONDA"
     displayName: Install conda
 
-  - script: |
-      conda list
-      which mamba
-      conda create --yes --quiet --name ntroot_CI
+  - script: conda create --yes --quiet --name ntroot_CI
     displayName: Create Anaconda environment
+
   - script: |
       source activate ntroot_CI
       mamba install --yes -c conda-forge -c bioconda python
