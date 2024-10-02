@@ -60,7 +60,7 @@ jobs:
     displayName: Create Anaconda environment
   - script: |
       source activate ntroot_CI
-      conda install --yes --name ntroot_CI -c conda-forge -c bioconda python mamba
+      mamba install --yes -c conda-forge -c bioconda python
       mamba install --yes -c conda-forge -c bioconda snakemake perl 'ntedit>=2.0.1' samtools bedtools
       mamba install --yes -c conda-forge -c bioconda libcxx llvm meson ninja btllib zlib boost cmake compilers 
     displayName: Install Conda packages
