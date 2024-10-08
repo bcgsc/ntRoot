@@ -153,8 +153,7 @@ Ensure that the ntRoot installation is available on your PATH.
 Refer to the README.md file on how to install and run ntRoot.
 Our [preprint](https://www.biorxiv.org/content/10.1101/2024.03.26.586646v1) contains information about the software and its performance.
 ![ntRoot PSB poster](https://github.com/bcgsc/ntRoot/blob/main/ntRootPSB2025.png)
-This [PSB2025 poster](https://doi.org/10.5281/zenodo.13844277) contains additional information, benchmarks and results.
-
+This [PSB2025 poster](https://f1000research.com/posters/13-1021) also available on [zenodo](https://doi.org/10.5281/zenodo.13844277) contains additional information, benchmarks and results.
 
 
 ## Citing <a name=citing></a>
@@ -168,6 +167,11 @@ If you use ntRoot, please cite:
 Human ancestry inference at scale, from genomic data
 Warren RL, Coombe L, Wong J, Kazemi P, Birol I.
 bioRxiv 2024.03.26.586646; doi: https://doi.org/10.1101/2024.03.26.586646
+</pre>
+
+Citing the poster:
+<pre>
+Warren R, Coombe L, Wong J et al. ntRoot: Scalable ancestry predictions from genome sequencing data [version 1]. F1000Research 2024, 13:1021 (poster) (https://doi.org/10.7490/f1000research.1119849.1)
 </pre>
 
 ## License <a name=license></a>
