@@ -139,7 +139,7 @@ rule sort_vcf_input:
         benchmark = f"{time_command} sort_vcf_{input_vcf_basename}.time",
         cat_cmd = "gunzip -c" if f"{input_vcf}".endswith(".gz") else "cat"
     shell:
-        """{params.benchmark} sh -c '(echo "##fileformat=VCFv4.2" ; {params.cat_cmd} {input.vcf} |grep -v "#" |sort -k1,1 -k2,2n) > {output.vcf_sorted}'"""
+        """{params.benchmark} sh -c '(echo "##fileformat=VCFv4.2" ; {params.cat_cmd} {input.vcf} |grep -v "^#" |sort -k1,1 -k2,2n) > {output.vcf_sorted}'"""
 
 rule sort_vcf_l:
     input: vcf = l
@@ -148,7 +148,7 @@ rule sort_vcf_l:
         benchmark = f"{time_command} sort_vcf_l.time",
         cat_cmd = "gunzip -c" if f"{l}".endswith(".gz") else "cat"
     shell:
-        """{params.benchmark} sh -c "(echo '##fileformat=VCFv4.2' ; {params.cat_cmd} {input.vcf} | awk '\$5 !~ /^</' | grep -v '#' |sort -k1,1 -k2,2n) > {output}" """
+        """{params.benchmark} sh -c "(echo '##fileformat=VCFv4.2' ; {params.cat_cmd} {input.vcf} | awk '\$5 !~ /^</' | grep -v '^#' |sort -k1,1 -k2,2n) > {output}" """
 
 rule bedtools_intersect:
     input:         
