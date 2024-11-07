@@ -135,10 +135,6 @@ ntroot -r GRCh38.fa.gz --custom_vcf third_party.vcf -l 1000GP_integrated_snv_v2a
 Note: For more advanced users, and for ancestry predictions on organisms other than human, please contact us.
 
 
-![Phylogenetic analysis of ntRoot ancestry-discriminant SNVs from a 1kGP sample set (n=153)](https://github.com/bcgsc/ntRoot/blob/main/ntroot_family_siblings.png)
-Neighbor joining phylogenetic analysis of ntRoot ancestry-discriminant SNVs for 153, 1000 Genomes Project (1kGP) individuals from 5 global regions (EAS=East Asia, EUR=Europe, SAS=South Asia, AFR=Africa, AMR=America). Branches are colored by the 1kGP super-population labels, with the pie charts at each leaf indicating the ntRoot-estimated ancestry composition of each individual, based on ntRoot (v1.0.1; -k 55 --draft GRCh38.fa.gz --reads 1kGP_WGS.fq -t 48 -Y 0.55 -l 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz) local ancestry inference (LAI). Highlighted sections show family trios (Mother-Father-Child), with a more complexed family relationship shown for 3 EAS siblings (sister with 2 brothers, each parent in a trio). The 1kGP accessions are shown on the outer ring label track with the 1kGP sub-population labels (CLM:Colombian; MXL:Mexican-American; PEL:Peruvian; PUR:Puerto Rican; ACB:African-Caribbean; ESN:Esan; GWD:Gambian; LWK:Luhya; MSL:Mende; YRI:Yoruba; CEU:CEPH (Centre d’Étude du Polymorphisme Humain – Utah); FIN:Finnish; GBR:British; IBS:Spanish; TSI:Tuscan; BEB:Bengali; ITU:Indian; PJL:Punjabi; STU:Sri Lankan; CDX:Dai Chinese; CHS:Southern Han Chinese; KHV:Kinh Vietnamese) on the inner-most label track. This figure is for illustrative purposes, demonstrating a possible application of ntRoot and its robust LAI. Note: Certain individuals with AMR 1kGP labels (e.g., PUR) are [known to be admixed, with primarily African ancestry](https://academic.oup.com/genetics/article/220/2/iyab227/6460343?login=false) and, accordingly, cluster at the edge of the AMR and AFR clades in the phylogeny.
-
-
 ## Demo <a name=demo></a>
 To test your installation:
 ```
