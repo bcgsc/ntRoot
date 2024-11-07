@@ -32,7 +32,7 @@ def set_up_parser():
     parser.add_argument("--genome",
                         help="Genome assembly file(s) for detecting SNVs compared to --reference", nargs="+")
     parser.add_argument("-l",
-                        help="input VCF file with annotated variants (e.g., clinvar.vcf)",
+                        help="input VCF file with annotated variants (e.g., clinvar.vcf, 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz)",
                         type=str, required=True)
 
     parser.add_argument("-k",
