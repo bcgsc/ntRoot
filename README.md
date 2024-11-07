@@ -55,7 +55,7 @@ No compilation is required for ntRoot (only the dependencies), so simply add the
 
 ## Usage <a name=usage></a>
 ```
-usage: ntroot [-h] [-r REFERENCE] [--reads READS] [--genome GENOME [GENOME ...]] -l L [-k K] [--tile TILE] [--lai] [-t T] [-z Z] [-j J] [-Y Y] [--custom_vcf CUSTOM_VCF]
+usage: ntroot [-h] [-r REFERENCE] [--reads READS] [--genome GENOME [GENOME ...]] [-l L] [-k K] [--tile TILE] [--lai] [-t T] [-z Z] [-j J] [-Y Y] [--custom_vcf CUSTOM_VCF]
               [--strip_info] [-v] [-V] [-n] [-f]
 
 ntRoot: Ancestry inference from genomic data
