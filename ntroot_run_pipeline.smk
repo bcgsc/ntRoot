@@ -10,7 +10,8 @@ onsuccess:
 # Read parameters from config or set default values
 reference=config["reference"]
 draft_base = os.path.basename(os.path.realpath(reference))
-reads_prefix=config["reads"] if "reads" in config else ""
+reads_prefix_full=config["reads"] if "reads" in config else ""
+reads_prefix=os.path.basename(reads_prefix_full)
 k=config["kmer"] if "kmer" in config else None
 
 genomes = config["genomes"] if "genomes" in config else ""
@@ -75,7 +76,7 @@ rule ntedit_reads:
         params = f"-k {k} -t {t} -z {z} -j {j} -Y {Y} --solid ",
         vcf_input = f"-l {l}" if l else ""
     shell:
-        "{params.benchmark} run-ntedit snv --reference {reference} --reads {reads_prefix} {params.params} "
+        "{params.benchmark} run-ntedit snv --reference {reference} --reads {reads_prefix_full} {params.params} "
         "{params.vcf_input}"
 
 rule ntedit_genome:
