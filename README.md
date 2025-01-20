@@ -7,7 +7,7 @@
 
 # ntRoot
 
-Ancestry inference from genomic data
+Ancestry predictions from genomic data
 
 ## Contents
 
