@@ -7,7 +7,7 @@
 
 # ntRoot
 
-Ancestry predictions from genomic data
+Scalable Ancestry Predictions from Genomic Data
 
 ## Contents
 
