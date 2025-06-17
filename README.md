@@ -1,6 +1,6 @@
 [![Release](https://img.shields.io/github/release/bcgsc/ntRoot.svg)](https://github.com/bcgsc/ntRoot/releases)
 [![link](https://img.shields.io/badge/ntRoot-preprint-brightgreen)](https://www.biorxiv.org/content/10.1101/2024.03.26.586646v1)
-[![link](https://img.shields.io/badge/HostSeq-preprint-blue)](https://doi.org/10.1101/2025.06.10.658783)
+[![link](https://img.shields.io/badge/HostSeq-preprint-yellow)](https://doi.org/10.1101/2025.06.10.658783)
 [![Zenodo](https://img.shields.io/badge/ntRoot-zenodo-red)](https://zenodo.org/doi/10.5281/zenodo.10869033)
 [![Conda](https://img.shields.io/conda/dn/bioconda/ntroot?label=Conda)](https://anaconda.org/bioconda/ntroot)
 
