@@ -1,5 +1,6 @@
 [![Release](https://img.shields.io/github/release/bcgsc/ntRoot.svg)](https://github.com/bcgsc/ntRoot/releases)
 [![link](https://img.shields.io/badge/ntRoot-preprint-brightgreen)](https://www.biorxiv.org/content/10.1101/2024.03.26.586646v1)
+[![link](https://img.shields.io/badge/hostseq-preprint-brightorange)](https://doi.org/10.1101/2025.06.10.658783)
 [![Zenodo](https://img.shields.io/badge/ntRoot-zenodo-red)](https://zenodo.org/doi/10.5281/zenodo.10869033)
 [![Conda](https://img.shields.io/conda/dn/bioconda/ntroot?label=Conda)](https://anaconda.org/bioconda/ntroot)
 
@@ -168,6 +169,13 @@ bioRxiv 2024.03.26.586646; doi: https://doi.org/10.1101/2024.03.26.586646
 Citing the poster:
 <pre>
 Warren R, Coombe L, Wong J et al. ntRoot: Scalable ancestry predictions from genome sequencing data [version 1]. F1000Research 2024, 13:1021 (poster) (https://doi.org/10.7490/f1000research.1119849.1)
+</pre>
+
+See how we applied `ntRoot` to [infer ancestry for 10,250 Canadian participants from the HostSeq cohort](https://doi.org/10.1101/2025.06.10.658783):
+<pre>
+Concordance and dissonance: A genome-wide analysis of self-declared versus inferred ancestry in 10,250 participants from the HostSeq cohort
+René L Warren, Inanc Birol, CGEn HostSeq Initiative
+bioRxiv 2025.06.10.658783; doi: https://doi.org/10.1101/2025.06.10.658783
 </pre>
 
 ## License <a name=license></a>
