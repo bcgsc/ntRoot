@@ -1,5 +1,5 @@
 [![Release](https://img.shields.io/github/release/bcgsc/ntRoot.svg)](https://github.com/bcgsc/ntRoot/releases)
-[![link](https://img.shields.io/badge/ntRoot-preprint-brightgreen)](https://www.biorxiv.org/content/10.1101/2024.03.26.586646v1)
+[![link](https://img.shields.io/badge/ntRoot-preprint-brightgreen)](https://doi.org/10.1101/2024.03.26.586646)
 [![link](https://img.shields.io/badge/HostSeq-preprint-yellow)](https://doi.org/10.1101/2025.06.10.658783)
 [![Zenodo](https://img.shields.io/badge/ntRoot-zenodo-red)](https://zenodo.org/doi/10.5281/zenodo.10869033)
 [![Conda](https://img.shields.io/conda/dn/bioconda/ntroot?label=Conda)](https://anaconda.org/bioconda/ntroot)
@@ -148,7 +148,7 @@ Ensure that the ntRoot installation is available on your PATH.
 ## Documentation <a name=docs></a>
 
 Refer to the README.md file on how to install and run ntRoot.
-Our [preprint](https://www.biorxiv.org/content/10.1101/2024.03.26.586646v1) contains information about the software and its performance.
+Our [preprint](https://doi.org/10.1101/2024.03.26.586646) contains information about the software and its performance.
 ![ntRoot PSB poster](https://github.com/bcgsc/ntRoot/blob/main/ntRootPSB2025.png)
 This [PSB2025 poster](https://f1000research.com/posters/13-1021), also available on [zenodo](https://doi.org/10.5281/zenodo.13844277), contains additional information, benchmarks and results.
 
