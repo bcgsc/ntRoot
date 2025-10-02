@@ -1,3 +1,4 @@
+# Azure Pipelines config for ntRoot CI
 # See https://docs.microsoft.com/azure/devops/pipelines/languages/python
 
 jobs:
@@ -11,20 +12,25 @@ jobs:
     persistCredentials: true
     submodules: true
 
-  - script: echo "##vso[task.prependpath]$CONDA/bin"
-    displayName: Add conda to PATH
-
-  - script: conda create --yes --quiet --name ntroot_CI
-    displayName: Create Anaconda environment
   - script: |
-      source activate ntroot_CI
-      conda install --yes --name ntroot_CI -c conda-forge -c bioconda python=3.12 mamba
-      mamba install --yes -c conda-forge -c bioconda meson ninja snakemake perl 'ntedit>=2.0.1' samtools bedtools
-      mamba install --yes -c conda-forge -c bioconda libcxx llvm meson ninja btllib zlib boost cmake compilers 
-    displayName: Install Conda packages
+      echo "Installing Miniforge..."
+      curl -L https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -o miniforge.sh
+      bash miniforge.sh -b -p $HOME/miniforge3
+      rm miniforge.sh
+      echo "##vso[task.prependpath]$HOME/miniforge3/bin"
+    displayName: Install conda
+
+  - script: |
+      conda create --yes --quiet --name ntroot_CI python=3.12
+      source $HOME/miniforge3/etc/profile.d/conda.sh
+      conda activate ntroot_CI
+      conda install --yes -c conda-forge -c bioconda mamba
+      mamba install --yes -c conda-forge -c bioconda meson ninja snakemake perl 'ntedit>=2.0.1' samtools bedtools libcxx llvm btllib zlib boost cmake compilers
+    displayName: Create and install Conda environment
   
   - script: |
-      source activate ntroot_CI
+      source $HOME/miniforge3/etc/profile.d/conda.sh
+      conda activate ntroot_CI
       export PATH=$(pwd):$PATH
       which ntroot
       which ntedit
@@ -43,28 +49,24 @@ jobs:
     submodules: true
 
   - script: |
-      mkdir -p ~/miniforge3
-      curl -L https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh  -o ~/miniforge3/miniforge.sh
-      bash ~/miniforge3/miniforge.sh -b -u -p ~/miniforge3
-      rm -rf  ~/miniforge3/miniforge.sh
-      ~/miniforge3/bin/conda init bash
-      ~/miniforge3/bin/conda init zsh
-      export CONDA=$(realpath ~/miniforge3/bin)
-      echo "##vso[task.prependpath]$CONDA"
+      echo "Installing Miniforge..."
+      curl -L https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh -o miniforge.sh
+      bash miniforge.sh -b -p $HOME/miniforge3
+      rm miniforge.sh
+      echo "##vso[task.prependpath]$HOME/miniforge3/bin"
     displayName: Install conda
 
-  - script: conda create --yes --quiet --name ntroot_CI
-    displayName: Create Anaconda environment
-
   - script: |
-      source activate ntroot_CI
-      mamba install --yes -c conda-forge -c bioconda python=3.12
-      mamba install --yes -c conda-forge -c bioconda snakemake perl 'ntedit>=2.0.1' samtools bedtools
-      mamba install --yes -c conda-forge -c bioconda libcxx llvm meson ninja btllib zlib boost cmake compilers 
-    displayName: Install Conda packages
+      conda create --yes --quiet --name ntroot_CI python=3.12
+      source $HOME/miniforge3/etc/profile.d/conda.sh
+      conda activate ntroot_CI
+      conda install --yes -c conda-forge -c bioconda mamba
+      mamba install --yes -c conda-forge -c bioconda snakemake perl 'ntedit>=2.0.1' samtools bedtools libcxx llvm meson ninja btllib zlib boost cmake compilers
+    displayName: Create and install Conda environment
   
   - script: |
-      source activate ntroot_CI
+      source $HOME/miniforge3/etc/profile.d/conda.sh
+      conda activate ntroot_CI
       export PATH=$(pwd):$PATH
       which ntroot
       cd demo
