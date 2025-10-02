@@ -68,7 +68,7 @@ optional arguments:
   --reads READS         Prefix of input reads file(s) for detecting SNVs. All files in the working directory with the specified prefix will be used. (fastq, fasta, gz, bz, zip)
   --genome GENOME [GENOME ...]
                         Genome assembly file(s) for detecting SNVs compared to --reference
-  -l L                  input VCF file with annotated variants (e.g., clinvar.vcf, 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz)
+  -l L                  input IVC VCF file with annotated variants (e.g., 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz, clinvar.vcf, etc.)
   -k K                  k-mer size
   --tile TILE           Tile size for ancestry fraction inference (bp) [default=5000000]
   --lai                 Output ancestry predictons per tile in a separate output file
