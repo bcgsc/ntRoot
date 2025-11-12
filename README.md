@@ -160,11 +160,11 @@ Thank you for your [![Stars](https://img.shields.io/github/stars/bcgsc/ntRoot.sv
 
 If you use ntRoot, please cite:
 
-[ntRoot: human ancestry inference at scale, from genomic data](https://doi.org/10.1101/2024.03.26.586646)
+[ntRoot: human ancestry inference at scale, from genomic data](https://doi.org/10.1093/bioadv/vbaf287)
 <pre>
-Human ancestry inference at scale, from genomic data
 Warren RL, Coombe L, Wong J, Kazemi P, Birol I.
-bioRxiv 2024.03.26.586646; doi: https://doi.org/10.1101/2024.03.26.586646
+ntRoot: computational inference of human ancestry at scale from genomic data. 
+Bioinformatics Advances, vbaf287, https://doi.org/10.1093/bioadv/vbaf287
 </pre>
 
 Citing the poster:
