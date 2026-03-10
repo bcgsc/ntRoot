@@ -1,10 +1,10 @@
-[![Release](https://img.shields.io/github/release/bcgsc/ntRoot.svg)](https://github.com/bcgsc/ntRoot/releases)
+[![Release](https://img.shields.io/github/release/birollab/ntRoot.svg)](https://github.com/birollab/ntRoot/releases)
 [![link](https://img.shields.io/badge/ntRoot-manuscript-brightgreen)](https://doi.org/10.1093/bioadv/vbaf287)
 [![link](https://img.shields.io/badge/HostSeq-preprint-yellow)](https://doi.org/10.1101/2025.06.10.658783)
 [![Zenodo](https://img.shields.io/badge/ntRoot-zenodo-red)](https://zenodo.org/doi/10.5281/zenodo.10869033)
 [![Conda](https://img.shields.io/conda/dn/bioconda/ntroot?label=Conda)](https://anaconda.org/bioconda/ntroot)
 
-![Logo](https://github.com/bcgsc/ntRoot/blob/main/ntroot-logo_colors.png)
+![Logo](https://github.com/birollab/ntRoot/blob/main/ntroot-logo_colors.png)
 
 # ntRoot
 
@@ -40,7 +40,7 @@ conda install -c bioconda -c conda-forge ntroot
 
 Installing ntRoot from the source code:
 ```
-git clone https://github.com/bcgsc/ntRoot.git
+git clone https://github.com/birollab/ntRoot.git
 cd ntRoot
 ```
 No compilation is required for ntRoot (only the dependencies), so simply add the ntRoot repository to your PATH.
@@ -48,7 +48,7 @@ No compilation is required for ntRoot (only the dependencies), so simply add the
 ### Dependencies <a name=dependencies></a>
 - python 3.9+
 - perl
-- [ntEdit 2.0.2+](https://github.com/bcgsc/ntEdit)
+- [ntEdit 2.0.2+](https://github.com/birollab/ntEdit)
 - [snakemake](https://snakemake.readthedocs.io/en/stable/)
 - [samtools](https://www.htslib.org/)
 - [bedtools](https://bedtools.readthedocs.io/en/latest/)
