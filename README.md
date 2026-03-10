@@ -85,7 +85,7 @@ optional arguments:
   -f, --force           Run all ntRoot steps, regardless of existing output files
 
 Note: please specify --reads OR --genome (not both)
-If you have any questions about ntRoot, please open an issue at https://github.com/bcgsc/ntRoot
+If you have any questions about ntRoot, please open an issue at https://github.com/birollab/ntRoot
 ```
 
 ## Human ancestry predictions <a name=data></a>
@@ -149,13 +149,13 @@ Ensure that the ntRoot installation is available on your PATH.
 
 Refer to the README.md file on how to install and run ntRoot.
 Our [preprint](https://doi.org/10.1101/2024.03.26.586646) contains information about the software and its performance.
-![ntRoot PSB poster](https://github.com/bcgsc/ntRoot/blob/main/ntRootPSB2025.png)
+![ntRoot PSB poster](https://github.com/birollab/ntRoot/blob/main/ntRootPSB2025.png)
 This [PSB2025 poster](https://doi.org/10.7490/f1000research.1119849.1), also available on [zenodo](https://doi.org/10.5281/zenodo.13844277), contains additional information, benchmarks and results.
 
 
 ## Citing <a name=citing></a>
 
-Thank you for your [![Stars](https://img.shields.io/github/stars/bcgsc/ntRoot.svg)](https://github.com/bcgsc/ntRoot/stargazers) and for using and promoting this free software! We hope that ntRoot is useful to you and your research.
+Thank you for your [![Stars](https://img.shields.io/github/stars/birollab/ntRoot.svg)](https://github.com/birollab/ntRoot/stargazers) and for using and promoting this free software! We hope that ntRoot is useful to you and your research.
 
 If you use ntRoot, please cite:
 
