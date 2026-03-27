@@ -123,6 +123,7 @@ readme
 </pre>
 
 **Running ntRoot with whole genome sequencing reads or genome assemblies**
+
 Users will specify:
 <pre>
 ntroot --reference GRCh38.fa.gz (--reads FILE_PREFIX OR --genome FILE) -l 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz -k 55
@@ -134,16 +135,18 @@ ntroot -k 55 --reference GRCh38.fa.gz --reads ERR3242308_ -t 48 -Y 0.55 -l 1000G
 </pre>
 
 **Running ntRoot with whole exome sequencing**
+
 If your input reads are from whole exome sequencing, the regions of your reference genome that are NOT targeted exonic regions should be hard-masked (converted to Ns):
 <pre>
-ntroot -k 55 --exome --masked --reference masked_GRCh38.fa.gz --reads test_exome_ -t 48 -Y 0.55 -l 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
+ntroot -k 55 --exome --masked --reference masked_GRCh38.fa.gz --reads test_exome -t 48 -Y 0.55 -l 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
 </pre>
 ntRoot can perform the masking automatically if you do not already have a masked reference file. In that case, provide a BED file with all the targeted regions, and ntRoot will use bedtools to mask the reference regions that are NOT targeted regions:
 <pre>
-ntroot -k 55 --exome --exome_bed exome_seq_regions.bed --reference GRCh38.fa.gz --reads test_exome_ -t 48 -Y 0.55 -l 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
+ntroot -k 55 --exome --exome_bed exome_seq_regions.bed --reference GRCh38.fa.gz --reads test_exome -t 48 -Y 0.55 -l 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
 </pre>
 
 **Running ntRoot using a pre-existing VCF file:**
+
 If you would like to infer ancestry from a pre-existing VCF file:
 <pre>
 ntroot -r GRCh38.fa.gz --custom_vcf third_party.vcf -l 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
