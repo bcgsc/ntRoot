@@ -56,12 +56,12 @@ No compilation is required for ntRoot (only the dependencies), so simply add the
 
 ## Usage <a name=usage></a>
 ```
-usage: ntroot [-h] [-r REFERENCE] [--reads READS] [--genome GENOME [GENOME ...]] -l L [-k K] [--tile TILE] [--lai] [-t T] [-z Z] [-j J] [-Y Y] [--custom_vcf CUSTOM_VCF]
-              [--strip_info] [-v] [-V] [-n] [-f]
+usage: ntroot [-h] [-r REFERENCE] [--reads READS] [--genome GENOME [GENOME ...]] -l L [--exome] [-k K] [--tile TILE] [--lai] [-t T] [-z Z] [-j J] [--cutoff CUTOFF] [-Y Y]
+              [--custom_vcf CUSTOM_VCF] [--masked] [--exome_bed EXOME_BED] [--strip_info] [-v] [-V] [-n] [-f]
 
 ntRoot: Ancestry inference from genomic data
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -r REFERENCE, --reference REFERENCE
                         Reference genome (FASTA, Multi-FASTA, and/or gzipped compatible)
@@ -69,15 +69,20 @@ optional arguments:
   --genome GENOME [GENOME ...]
                         Genome assembly file(s) for detecting SNVs compared to --reference
   -l L                  input IVC VCF file with annotated variants (e.g., 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz, clinvar.vcf, etc.)
+  --exome               Input reads for detecting SNVs are from whole exome sequencing. If provided, must also specify either --bed or --masked. --cutoff 2 is implied unless otherwise specified.
   -k K                  k-mer size
   --tile TILE           Tile size for ancestry fraction inference (bp) [default=5000000]
   --lai                 Output ancestry predictons per tile in a separate output file
   -t T                  Number of threads [default=4]
   -z Z                  Minimum contig length [default=100]
   -j J                  controls size of k-mer subset. When checking subset of k-mers, check every jth k-mer [default=3]
+  --cutoff CUTOFF       Minimum coverage of k-mers in ntEdit Bloom filter. Solid k-mers are used if set to 0 [0]
   -Y Y                  Ratio of number of k-mers in the k subset that should be present to accept an edit (higher=stringent) [default=0.55]
   --custom_vcf CUSTOM_VCF
                         Input VCF for computing ancestry. When specified, ntRoot will skip the ntEdit step, and predict ancestry from the provided VCF.
+  --masked              Exome Mode (--exome) only: Indicates that the reference genome provided with --reference is masked to only include the targeted exonic regions. 
+  --exome_bed EXOME_BED
+                        Exome Mode (--exome) only: BED file of exome targeted regions. 
   --strip_info          When using --custom_vcf, strip the existing INFO field from the input VCF.
   -v, --verbose         Verbose mode [default=False]
   -V, --version         show program's version number and exit
@@ -126,6 +131,15 @@ ntroot --reference GRCh38.fa.gz (--reads FILE_PREFIX OR --genome FILE) -l 1000GP
 Example command:
 <pre>
 ntroot -k 55 --reference GRCh38.fa.gz --reads ERR3242308_ -t 48 -Y 0.55 -l 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
+</pre>
+
+If your input reads are from whole exome sequencing, the regions of your reference genome that are NOT targeted exonic regions should be hard-masked (converted to Ns):
+<pre>
+ntroot -k 55 --exome --masked --reference masked_GRCh38.fa.gz --reads test_exome_ -t 48 -Y 0.55 -l 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
+</pre>
+ntRoot can perform the masking automatically if you do not already have a masked reference file. In that case, provide a BED file with all the targeted regions, and ntRoot will use bedtools to mask the reference regions that are NOT targeted regions:
+<pre>
+ntroot -k 55 --exome --exome_bed exome_seq_regions.bed --reference GRCh38.fa.gz --reads test_exome_ -t 48 -Y 0.55 -l 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz
 </pre>
 
 If you would like to infer ancestry from a pre-existing VCF file:
