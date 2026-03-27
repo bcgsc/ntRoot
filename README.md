@@ -69,7 +69,7 @@ options:
   --genome GENOME [GENOME ...]
                         Genome assembly file(s) for detecting SNVs compared to --reference
   -l L                  input IVC VCF file with annotated variants (e.g., 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz, clinvar.vcf, etc.)
-  --exome               Input reads for detecting SNVs are from whole exome sequencing. If provided, must also specify either --bed or --masked. --cutoff 2 is implied unless otherwise specified.
+  --exome               Input reads for detecting SNVs are from whole exome sequencing. If provided, must also specify either --exome_bed or --masked. --cutoff 2 is implied unless otherwise specified.
   -k K                  k-mer size
   --tile TILE           Tile size for ancestry fraction inference (bp) [default=5000000]
   --lai                 Output ancestry predictons per tile in a separate output file
@@ -80,7 +80,7 @@ options:
   -Y Y                  Ratio of number of k-mers in the k subset that should be present to accept an edit (higher=stringent) [default=0.55]
   --custom_vcf CUSTOM_VCF
                         Input VCF for computing ancestry. When specified, ntRoot will skip the ntEdit step, and predict ancestry from the provided VCF.
-  --masked              Exome Mode (--exome) only: Indicates that the reference genome provided with --reference is masked to only include the targeted exonic regions. 
+  --masked              Exome Mode (--exome) only: Indicates that the reference genome provided with --reference has all NON-targeted exonic regions hard-masked. 
   --exome_bed EXOME_BED
                         Exome Mode (--exome) only: BED file of exome targeted regions. 
   --strip_info          When using --custom_vcf, strip the existing INFO field from the input VCF.

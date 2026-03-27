@@ -35,7 +35,7 @@ def set_up_parser():
                         help="input IVC VCF file with annotated variants (e.g., 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz, clinvar.vcf, etc.)",
                         type=str, required=True)
     parser.add_argument("--exome", help="Input reads for detecting SNVs are from whole exome sequencing. "
-                        "If provided, must also specify either --bed or --masked. --cutoff 2 is implied unless otherwise specified.",
+                        "If provided, must also specify either --exome_bed or --masked. --cutoff 2 is implied unless otherwise specified.",
                         action="store_true")
 
     parser.add_argument("-k",
@@ -65,7 +65,7 @@ def set_up_parser():
                         type=str)
     parser.add_argument("--masked", help="Exome Mode (--exome) only: "
                         "Indicates that the reference genome provided with --reference "
-                        "is masked to only include the targeted exonic regions. ",
+                        "has all NON-targeted exonic regions hard-masked. ",
                         action="store_true")
     parser.add_argument("--exome_bed", help="Exome Mode (--exome) only: BED file of exome targeted regions. ",
                         type=str)
