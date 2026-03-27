@@ -106,7 +106,7 @@ rule ntedit_exome_reads:
     params:
         benchmark = f"{time_command} ntedit_snv_k{k}.time",
         params = f"-k {k} -t {t} -z {z} -j {j} -Y {Y}",
-        cutoff = f"--cutoff {cutoff}",
+        cutoff = f"--cutoff {cutoff}" if cutoff > 0 else "--solid",
         vcf_input = f"-l {l}" if l else "",
         out_vcf_tmp = f"{reads_prefix}_ntedit_k{k}_variants.vcf"
     shell:
