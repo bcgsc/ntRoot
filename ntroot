@@ -101,6 +101,10 @@ def main():
     if not args.exome and (args.masked or args.exome_bed):
         raise argparse.ArgumentTypeError("Parameters --masked and --exome_bed are only used only in exome mode")
 
+    if args.exome and args.masked:
+        print("--exome and --masked specified. Assuming reference genome provided with --reference has all"
+              " NON-targeted exonic regions hard-masked.", flush=True)
+
     if args.exome and args.cutoff < 2:
         args.cutoff = 2
         print("In exome mode, minimum k-mer coverage cutoff is set to 2 by default "
