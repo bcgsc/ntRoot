@@ -34,6 +34,9 @@ def set_up_parser():
     parser.add_argument("-l",
                         help="input IVC VCF file with annotated variants (e.g., 1000GP_integrated_snv_v2a_27022019.GRCh38.phased_gt1.vcf.gz, clinvar.vcf, etc.)",
                         type=str, required=True)
+    parser.add_argument("--exome", help="Input reads for detecting SNVs are from whole exome sequencing. "
+                        "If provided, must also specify either --exome_bed or --masked. --cutoff 2 is implied unless otherwise specified.",
+                        action="store_true")
 
     parser.add_argument("-k",
                         help="k-mer size",
@@ -50,6 +53,8 @@ def set_up_parser():
                         help="controls size of k-mer subset. When checking subset of k-mers, check every jth k-mer "
                             "[default=3]",
                         default=3, type=int)
+    parser.add_argument("--cutoff", help="Minimum coverage of k-mers in ntEdit Bloom filter. "
+                        "Solid k-mers are used if set to 0 [0]", default=0, type=int)
     parser.add_argument("-Y",
                         help="Ratio of number of k-mers in the k subset that should be present to accept "
                             "an edit (higher=stringent) "
@@ -58,7 +63,14 @@ def set_up_parser():
                                         "When specified, ntRoot will skip the ntEdit step, and "
                                         "predict ancestry from the provided VCF.",
                         type=str)
-    parser.add_argument("--strip_info", help="When using --custom_vcf, strip the existing INFO field from the input VCF.",
+    parser.add_argument("--masked", help="Exome Mode (--exome) only: "
+                        "Indicates that the reference genome provided with --reference "
+                        "has all NON-targeted exonic regions hard-masked. ",
+                        action="store_true")
+    parser.add_argument("--exome_bed", help="Exome Mode (--exome) only: BED file of exome targeted regions. ",
+                        type=str)
+    parser.add_argument("--strip_info", help="When using --custom_vcf, "
+                        "strip the existing INFO field from the input VCF.",
                         action="store_true")
     parser.add_argument("-v", "--verbose",
                         help="Verbose mode [default=False]", action="store_true", default=False)
@@ -80,6 +92,25 @@ def main():
     if ((args.reads and args.genome) or (not args.reads and not args.genome)) and not args.custom_vcf:
         raise argparse.ArgumentTypeError("Please specify --reads OR --genome")
 
+    if args.exome and not (args.masked or args.exome_bed):
+        raise argparse.ArgumentTypeError("In exome mode, please specify either --masked or --exome_bed")
+
+    if args.exome and (args.masked and args.exome_bed):
+        raise argparse.ArgumentTypeError("In exome mode, please specify either --masked OR --exome_bed")
+
+    if not args.exome and (args.masked or args.exome_bed):
+        raise argparse.ArgumentTypeError("Parameters --masked and --exome_bed are only used only in exome mode")
+
+    if args.exome and args.masked:
+        print("--exome and --masked specified. Assuming reference genome provided with --reference has all"
+              " NON-targeted exonic regions hard-masked.", flush=True)
+
+    if args.exome and args.cutoff < 2:
+        args.cutoff = 2
+        print("In exome mode, minimum k-mer coverage cutoff is set to 2 by default "
+              "unless explicitly set higher. Setting cutoff to 2.",
+              flush=True)
+
     if not args.draft and not args.reference:
         raise argparse.ArgumentTypeError("Please specify the reference genome with --reference")
     if args.draft:
@@ -95,7 +126,11 @@ def main():
                     "Parameter settings:"]
 
     if args.reads:
-        if args.lai:
+        if args.exome and args.lai:
+            smk_rule = "ntroot_reads_exome_lai"
+        elif args.exome:
+            smk_rule = "ntroot_reads_exome"
+        elif args.lai:
             smk_rule = "ntroot_reads_lai"
         else:
             smk_rule = "ntroot_reads"
@@ -127,6 +162,19 @@ def main():
         intro_string.append(f"\t--reads {args.reads}")
         command += f"reads={args.reads}"
 
+        intro_string.append(f"\t--cutoff {args.cutoff}")
+        command += f" cutoff={args.cutoff}"
+
+    if args.exome:
+        intro_string.append("\t--exome")
+        command += " exome=True"
+        if args.masked:
+            intro_string.append("\t--masked")
+            command += " masked=True"
+        elif args.exome_bed:
+            intro_string.append(f"\t--exome_bed {args.exome_bed}")
+            command += f" exome_bed={args.exome_bed}"
+        
     intro_string.extend([f"\t--reference {args.reference}",
                         f"\t-t {args.t}"])
 
