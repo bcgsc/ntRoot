@@ -88,7 +88,7 @@ my $y;
 my $z;
 my $populations;
 
-print "Inferring ancestry using SNVs (single nucleotide variants)...\n\n";
+print "Inferring ancestry using SNVs...\n";
 
 while(<$IN>){
 	chomp;
@@ -223,7 +223,12 @@ foreach my $k(keys %$s){
 my $out = $f . "_ancestry-predictions_tile$dw.tsv";
 open(OUT,">$out") || die "Can't write to $out -- fatal.\n";
 
-my $header_str = "GAI Super-population\tLAI fraction (tile:$dw bp)\tGAI score\tTotal SNV count\tNon-zero AF SNV count";
+
+my $header_str = "# GAI score: Average SNV allele frequency * rate of SNVs with non-zero allele frequency\n";
+$header_str .= "# Populations ranked by LAI fraction\n";
+$header_str .= "# AF: Allele Frequency; nz: Non-zero\n";
+$header_str .= "GAI Super-population\tLAI fraction (tile:$dw bp)\tGAI score\tTotal SNV count\tNon-zero AF SNV count";
+
 if ($verbose) {
 	$header_str = $header_str . "\tSumAF\tAvgAF\tnzAvgAF\tnzSNVrate\tAvgAF * nzAF_SNV_count\n";
 } else {
@@ -258,13 +263,7 @@ foreach my $population(sort {$top->{$b}<=>$top->{$a}} keys %$top){
 
 close OUT;### filehandle hygiene
 
-print "\nGAI score: Average SNV allele frequency * rate of SNVs with non-zero allele frequency\n";
-print "Populations are ranked based on the LAI fraction\n";
-print "\nAbbreviations:\n\tAF: Allele Frequency";
-if ($verbose) {
-	print "\n\tnz: Non-zero\n";
-}
-print "\n\nAncestry predictions available in:\n$out\n";
+print "Ancestry predictions available in:\n$out\n";
 
 if ($tile_resolution) {
 	print $f . "_ancestry-predictions-tile-resolution_tile$dw.tsv\n";
