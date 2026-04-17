@@ -60,14 +60,27 @@ my $chr;
 if ($tile_resolution) {
 	open(IN,$fai) || die "Can't read $fai --fatal (is the file in your working directory?)\n";
 	while(<IN>){
-	chomp;
-	my @a=split(/\t/);
-	$chr->{$a[0]}=$a[1];
+	   chomp;
+	   my @a=split(/\t/);
+	   $chr->{$a[0]}=$a[1];
 	}
+	close IN; ### filehandle hygiene
+}
+
+###below support for compressed vcf
+my $IN;
+
+if ($f =~ /\.(gz|bgz)$/) {### add support for gz/bgz
+    my $cmd = "gunzip -c";  # safe default
+    $cmd = "unpigz -c" if system("command -v unpigz >/dev/null 2>&1") == 0;
+
+    #open($IN, "$cmd $f |") or die "can't read compressed $f -- fatal.\n";
+    open($IN, "-|", split(" ", $cmd), $f) or die "can't read compressed $f -- fatal.\n";###safer open
+} else {
+    open($IN, "<", $f) or die "can't read $f -- fatal.\n";
 }
 
 
-open(IN, $f) || die "can't read $f -- fatal.\n";
 
 my $xr=0;
 my $s;
@@ -77,10 +90,10 @@ my $populations;
 
 print "Inferring ancestry using SNVs (single nucleotide variants)...\n\n";
 
-while(<IN>){
+while(<$IN>){
 	chomp;
 	my @a=split(/\t/);
-	my $max;
+	my $max = -1;###never previously initialized
 	my $maxpop;
 
 	if(/_AF/){
@@ -113,7 +126,6 @@ while(<IN>){
 						$z->{$a[0]}{$wn}{$pop}{'sum'}+=$afallele;
 						$y->{$a[0]}{$wn}{'ct'}++;
 
-
 						if($afallele){
 							$s->{$d[0]}{'ct'}++;
 							$z->{$a[0]}{$wn}{$pop}{'nzct'}++;
@@ -121,8 +133,8 @@ while(<IN>){
 								$max=$a[1];
 								$maxpop=$pop;
 							}
-						} else{
-							$afallele=1;
+						#} else{### Remove dead $afallele=1 line (not used)
+						#	$afallele=1;
 						}
 					}
 				}
@@ -130,6 +142,9 @@ while(<IN>){
    		}
 	}
 }
+
+close $IN;
+
 ###calculate metric per tile
 my $top;
 my $total;
@@ -149,11 +164,13 @@ foreach my $el(sort {$a<=>$b} keys %$z){
 	my $wnl=$z->{$el};
 	foreach my $wnum(sort {$a<=>$b} keys %$wnl){
 		my $pl = $wnl->{$wnum};
-		my $winmax;
+		my $winmax = -1;###was never initialized
 		my $winpop;
 		my $window_population_metric;
 		print "WARNING: chr$el tile$wnum has $y->{$el}{$wnum}{'ct'} only total SNVs -- you may need to increase the tile size (currently set at $dw)\n" if($y->{$el}{$wnum}{'ct'}<100);
 		foreach my $pp(keys %$pl){
+			my $ct = $y->{$el}{$wnum}{'ct'} || 0;###guards div by zero
+                        next if $ct == 0;                    ###guards div by zero
 			my $rate = $pl->{$pp}{'sum'}/$y->{$el}{$wnum}{'ct'};
 			my $metric = ($pl->{$pp}{'nzct'}/$y->{$el}{$wnum}{'ct'}) * $rate;
 			$window_population_metric->{$pp} = $metric;
@@ -182,7 +199,6 @@ foreach my $el(sort {$a<=>$b} keys %$z){
 	}
 }
 
-close IN;
 if ($tile_resolution) {
 	close BEST;
 }
@@ -239,6 +255,8 @@ foreach my $population(sort {$top->{$b}<=>$top->{$a}} keys %$top){
 		printf OUT "\n";
 	}
 }
+
+close OUT;### filehandle hygiene
 
 print "\nGAI score: Average SNV allele frequency * rate of SNVs with non-zero allele frequency\n";
 print "Populations are ranked based on the LAI fraction\n";
