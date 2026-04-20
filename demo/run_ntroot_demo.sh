@@ -15,7 +15,7 @@ fi
 
 ntroot --reference chr21.fa --reads ERR3239334.chr21_ -k 55 -l pop-spec-snp_chr21.vcf.gz
 
-prediction=$(cat ERR3239334.chr21__ntedit_k55_variants.vcf_ancestry-predictions_tile5000000.tsv | awk '{print $1}' |head -n 2 |tail -n 1)
+prediction=$(cat ERR3239334.chr21__ntedit_k55_variants.vcf_ancestry-predictions_tile5000000.tsv | grep -v "#" | awk '{print $1}' |head -n 2 |tail -n 1)
 
 if [ ${prediction} == "EUR" ]; then
 	echo "ntRoot reads test successful!"
@@ -28,7 +28,7 @@ echo "Running ntRoot genome demo..."
 
 ntroot --reference chr21.fa --genome HuRef.chr21.fa -k 55 -l pop-spec-snp_chr21.vcf.gz
 
-prediction=$(cat HuRef.chr21_ntedit_k55_variants.vcf_ancestry-predictions_tile5000000.tsv | awk '{print $1}' |head -n 2 |tail -n 1)
+prediction=$(cat HuRef.chr21_ntedit_k55_variants.vcf_ancestry-predictions_tile5000000.tsv | grep -v "#" | awk '{print $1}' |head -n 2 |tail -n 1)
 if [ ${prediction} == "EUR" ]; then
 	echo "ntRoot genome test successful!"
 else 
@@ -39,7 +39,7 @@ fi
 echo "Running ntRoot input VCF demo..."
 
 ntroot --reference chr21.fa --custom_vcf HG002.chr21.vcf.gz -l pop-spec-snp_chr21.vcf.gz
-prediction=$(cat HG002.chr21.vcf.gz.cross-ref.vcf_ancestry-predictions_tile5000000.tsv | awk '{print $1}' |head -n 2 |tail -n 1)
+prediction=$(cat HG002.chr21.vcf.gz.cross-ref.vcf_ancestry-predictions_tile5000000.tsv | grep -v "#" | awk '{print $1}' |head -n 2 |tail -n 1)
 if [ ${prediction} == "EUR" ]; then
 	echo "ntRoot input VCF test successful!"
 else 
@@ -57,7 +57,7 @@ if [ ! -f HG00864_ERR050737.chr20-21.fastq.gz ]; then
 fi
 
 ntroot --reference chr20-21.fa.gz --reads HG00864 -k 55 -l pop-spec-snp_chr20-21.vcf.gz --exome --exome_bed exome_targets.bed
-prediction=$(cat HG00864_ntedit_k55_exome_variants.vcf_ancestry-predictions_tile5000000.tsv | awk '{print $1}' |head -n 2 |tail -n 1)
+prediction=$(cat HG00864_ntedit_k55_exome_variants.vcf_ancestry-predictions_tile5000000.tsv | grep -v "#" | awk '{print $1}' |head -n 2 |tail -n 1)
 if [ ${prediction} == "EAS" ]; then
 	echo "ntRoot --exome reads test successful!"
 else 
@@ -67,7 +67,7 @@ fi
 
 echo "Running ntRoot --exome demo with --masked (input reference already masked based on exon target coordinates)"
 ntroot --exome --reference masked_chr20-21.fa.gz --reads HG00864 -k 55 -l pop-spec-snp_chr20-21.vcf.gz --masked --force
-prediction=$(cat HG00864_ntedit_k55_exome_variants.vcf_ancestry-predictions_tile5000000.tsv | awk '{print $1}' |head -n 2 |tail -n 1)
+prediction=$(cat HG00864_ntedit_k55_exome_variants.vcf_ancestry-predictions_tile5000000.tsv | grep -v "#" | awk '{print $1}' |head -n 2 |tail -n 1)
 if [ ${prediction} == "EAS" ]; then
 	echo "ntRoot --exome masked test successful!"
 else 
