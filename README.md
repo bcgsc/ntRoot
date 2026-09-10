@@ -117,9 +117,9 @@ Users can interactively explore ancestry patterns within individual chromosomes 
 
 Example visualizations:
 <br>
-[Interactive LAI demo1 (HTML)](https://www.birollab.ca/viz/ERR3988858_ntedit_k55_variants.vcf_ntroot-lai-interactive_tile5000000.html)
+[Interactive LAI demo1 - ERR3988858 (Puerto Rico)](https://www.birollab.ca/viz/ERR3988858_ntedit_k55_variants.vcf_ntroot-lai-interactive_tile5000000.html)
 <br>
-[Interactive LAI demo2 (HTML)](https://www.birollab.ca/viz/ERR3242010_ntedit_k55_variants.vcf_ntroot-lai-interactive_tile5000000.html)
+[Interactive LAI demo2 - ERR3242010 (Peru)](https://www.birollab.ca/viz/ERR3242010_ntedit_k55_variants.vcf_ntroot-lai-interactive_tile5000000.html)
 
 
 
