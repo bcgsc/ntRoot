@@ -117,35 +117,10 @@ Users can interactively explore ancestry patterns within individual chromosomes 
 
 Example visualizations:
 <br>
-<div style="max-width:900px; margin: 2rem auto; border:1px solid #ddd; border-radius:6px; overflow:hidden;">
-    <iframe
-        src="/viz/ERR3988858_ntedit_k55_variants.vcf_ntroot-lai-interactive_tile5000000.html"
-        style="
-            width:100%;
-            height:360px;
-            border:none;
-            transform: translateY(-1px);
-        ">
-    </iframe>
-</div>
-<p style="text-align:center; margin-top:0.5rem;">
-<a href="/viz/ERR3988858_ntedit_k55_variants.vcf_ntroot-lai-interactive_tile5000000.html" target="_blank">Open interactive visualization in a new tab</a>
-</p>
+[Interactive LAI demo1 (HTML)](https://www.birollab.ca/viz/ERR3988858_ntedit_k55_variants.vcf_ntroot-lai-interactive_tile5000000.html)
 <br>
-<div style="max-width:900px; margin: 2rem auto; border:1px solid #ddd; border-radius:6px; overflow:hidden;">
-    <iframe
-        src="/viz/ERR3242010_ntedit_k55_variants.vcf_ntroot-lai-interactive_tile5000000.html"
-        style="
-            width:100%;
-            height:360px;
-            border:none;
-            transform: translateY(-1px);
-        ">
-    </iframe>
-</div>
-<p style="text-align:center; margin-top:0.5rem;">
-<a href="/viz/ERR3242010_ntedit_k55_variants.vcf_ntroot-lai-interactive_tile5000000.html" target="_blank">Open interactive visualization in a new tab</a>
-</p>
+[Interactive LAI demo2 (HTML)](https://www.birollab.ca/viz/ERR3242010_ntedit_k55_variants.vcf_ntroot-lai-interactive_tile5000000.html)
+
 
 
 ## Human ancestry predictions <a name=data></a>
